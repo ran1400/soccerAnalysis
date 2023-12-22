@@ -7,11 +7,11 @@ android {
     compileSdk 33
 
     defaultConfig {
-        applicationId "com.soccerAnalyst"
+        applicationId "ran.tmpTest"
         minSdk 21
         targetSdk 31
-        versionCode 1
-        versionName "1.0"
+        versionCode 5
+        versionName "5.0"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -26,7 +26,7 @@ android {
         sourceCompatibility JavaVersion.VERSION_16
         targetCompatibility JavaVersion.VERSION_16
     }
-    namespace 'com.soccerAnalyst'
+    namespace 'ran.tmpTest'
 }
 
 dependencies {

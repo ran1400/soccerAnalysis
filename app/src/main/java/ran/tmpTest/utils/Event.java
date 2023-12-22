@@ -1,4 +1,4 @@
-package com.soccerAnalyst.utils;
+package ran.tmpTest.utils;
 
 public class Event
 {

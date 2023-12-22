@@ -1,4 +1,4 @@
-package com.soccerAnalyst.alertDialogs;
+package ran.tmpTest.alertDialogs;
 
 import androidx.appcompat.app.AppCompatDialogFragment;
 import androidx.constraintlayout.widget.ConstraintLayout;
@@ -21,12 +21,13 @@ import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.soccerAnalyst.GameFragment;
-import com.soccerAnalyst.R;
+import ran.tmpTest.GameFragment;
+import ran.tmpTest.R;
 
 
-import com.soccerAnalyst.sharedData.AppData;
-import com.soccerAnalyst.utils.Event;
+import ran.tmpTest.sharedData.AppData;
+import ran.tmpTest.utils.Event;
+
 
 public class AddEventAlertDialog extends AppCompatDialogFragment
 {

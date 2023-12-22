@@ -1,4 +1,4 @@
-package com.soccerAnalyst;
+package ran.tmpTest;
 
 import android.graphics.Color;
 import android.os.Bundle;
@@ -18,9 +18,11 @@ import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.soccerAnalyst.sharedData.AppData;
-import com.soccerAnalyst.utils.DragAndDropList;
-import com.soccerAnalyst.utils.Game;
+import ran.tmpTest.R;
+
+import ran.tmpTest.sharedData.AppData;
+import ran.tmpTest.utils.DragAndDropList;
+import ran.tmpTest.utils.Game;
 
 import java.util.Collections;
 import java.util.List;

@@ -1,4 +1,4 @@
-package com.soccerAnalyst.utils;
+package ran.tmpTest.utils;
 
 import java.util.ArrayList;
 import java.util.List;

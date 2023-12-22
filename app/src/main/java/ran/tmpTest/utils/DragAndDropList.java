@@ -1,4 +1,4 @@
-package com.soccerAnalyst.utils;
+package ran.tmpTest.utils;
 import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -8,9 +8,9 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.soccerAnalyst.R;
-import com.soccerAnalyst.SettingFragment;
-import com.soccerAnalyst.sharedData.AppData;
+import ran.tmpTest.R;
+import ran.tmpTest.SettingFragment;
+import ran.tmpTest.sharedData.AppData;
 
 import java.util.List;
 

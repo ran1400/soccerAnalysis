@@ -1,4 +1,4 @@
-package com.soccerAnalyst;
+package ran.tmpTest;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -12,10 +12,12 @@ import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 
-import com.soccerAnalyst.sharedData.AppData;
-import com.soccerAnalyst.utils.Event;
-import com.soccerAnalyst.utils.saveInMemoryLists.EventsList;
-import com.soccerAnalyst.utils.saveInMemoryLists.GamesList;
+import ran.tmpTest.R;
+
+import ran.tmpTest.sharedData.AppData;
+import ran.tmpTest.utils.Event;
+import ran.tmpTest.utils.saveInMemoryLists.EventsList;
+import ran.tmpTest.utils.saveInMemoryLists.GamesList;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.gson.Gson;
 

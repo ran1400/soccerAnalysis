@@ -1,4 +1,4 @@
-package com.soccerAnalyst.utils;
+package ran.tmpTest.utils;
 
 import static android.content.ContentValues.TAG;
 
@@ -6,8 +6,8 @@ import android.os.Environment;
 import android.util.Log;
 
 
-import com.soccerAnalyst.EventsFragment;
-import com.soccerAnalyst.sharedData.AppData;
+import ran.tmpTest.EventsFragment;
+import ran.tmpTest.sharedData.AppData;
 
 import org.apache.poi.hssf.usermodel.HSSFCellStyle;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;

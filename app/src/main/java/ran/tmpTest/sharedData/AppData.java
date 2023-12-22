@@ -1,14 +1,14 @@
-package com.soccerAnalyst.sharedData;
+package ran.tmpTest.sharedData;
 
 
 import android.util.Log;
 
-import com.soccerAnalyst.EventsFragment;
-import com.soccerAnalyst.GameFragment;
-import com.soccerAnalyst.MainActivity;
-import com.soccerAnalyst.SettingFragment;
-import com.soccerAnalyst.utils.Event;
-import com.soccerAnalyst.utils.Game;
+import ran.tmpTest.EventsFragment;
+import ran.tmpTest.GameFragment;
+import ran.tmpTest.MainActivity;
+import ran.tmpTest.SettingFragment;
+import ran.tmpTest.utils.Event;
+import ran.tmpTest.utils.Game;
 
 
 import java.util.ArrayList;

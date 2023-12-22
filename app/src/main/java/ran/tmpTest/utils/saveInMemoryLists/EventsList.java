@@ -1,4 +1,4 @@
-package com.soccerAnalyst.utils.saveInMemoryLists;
+package ran.tmpTest.utils.saveInMemoryLists;
 
 import java.util.List;
 
