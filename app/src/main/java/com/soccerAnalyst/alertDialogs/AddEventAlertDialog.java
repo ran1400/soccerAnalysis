@@ -1,4 +1,4 @@
-package com.example.socceranalysis.alertDialogs;
+package com.soccerAnalyst.alertDialogs;
 
 import androidx.appcompat.app.AppCompatDialogFragment;
 import androidx.constraintlayout.widget.ConstraintLayout;
@@ -21,12 +21,12 @@ import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.socceranalysis.GameFragment;
-import com.example.socceranalysis.R;
+import com.soccerAnalyst.GameFragment;
+import com.soccerAnalyst.R;
 
 
-import com.example.socceranalysis.sharedData.AppData;
-import com.example.socceranalysis.utils.Event;
+import com.soccerAnalyst.sharedData.AppData;
+import com.soccerAnalyst.utils.Event;
 
 public class AddEventAlertDialog extends AppCompatDialogFragment
 {

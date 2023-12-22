@@ -1,8 +1,5 @@
-package com.example.socceranalysis.utils.saveInMemoryLists;
+package com.soccerAnalyst.utils.saveInMemoryLists;
 
-import com.example.socceranalysis.utils.Game;
-
-import java.util.ArrayList;
 import java.util.List;
 
 public class EventsList

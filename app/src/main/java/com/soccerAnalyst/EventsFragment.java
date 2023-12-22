@@ -1,4 +1,4 @@
-package com.example.socceranalysis;
+package com.soccerAnalyst;
 
 import android.annotation.SuppressLint;
 import android.os.Bundle;
@@ -14,9 +14,9 @@ import android.widget.Button;
 import android.widget.Spinner;
 import android.widget.TextView;
 
-import com.example.socceranalysis.sharedData.AppData;
-import com.example.socceranalysis.utils.Event;
-import com.example.socceranalysis.utils.ExelHandel;
+import com.soccerAnalyst.sharedData.AppData;
+import com.soccerAnalyst.utils.Event;
+import com.soccerAnalyst.utils.ExelHandel;
 
 import java.util.List;
 

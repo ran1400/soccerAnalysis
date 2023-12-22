@@ -1,4 +1,4 @@
-package com.example.socceranalysis.utils;
+package com.soccerAnalyst.utils;
 
 public class Event
 {

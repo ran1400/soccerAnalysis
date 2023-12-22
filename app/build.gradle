@@ -7,7 +7,7 @@ android {
     compileSdk 33
 
     defaultConfig {
-        applicationId "com.example.socceranalysis"
+        applicationId "com.soccerAnalyst"
         minSdk 21
         targetSdk 31
         versionCode 1
@@ -26,7 +26,7 @@ android {
         sourceCompatibility JavaVersion.VERSION_16
         targetCompatibility JavaVersion.VERSION_16
     }
-    namespace 'com.example.socceranalysis'
+    namespace 'com.soccerAnalyst'
 }
 
 dependencies {

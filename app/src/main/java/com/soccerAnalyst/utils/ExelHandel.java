@@ -1,15 +1,13 @@
-package com.example.socceranalysis.utils;
+package com.soccerAnalyst.utils;
 
 import static android.content.ContentValues.TAG;
 
 import android.os.Environment;
 import android.util.Log;
-import android.widget.Switch;
 
 
-import com.example.socceranalysis.EventsFragment;
-import com.example.socceranalysis.GameFragment;
-import com.example.socceranalysis.sharedData.AppData;
+import com.soccerAnalyst.EventsFragment;
+import com.soccerAnalyst.sharedData.AppData;
 
 import org.apache.poi.hssf.usermodel.HSSFCellStyle;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;

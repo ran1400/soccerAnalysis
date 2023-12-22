@@ -1,4 +1,4 @@
-package com.example.socceranalysis;
+package com.soccerAnalyst;
 
 import android.content.Context;
 import android.graphics.Color;
@@ -27,9 +27,9 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 
 import java.util.List;
 
-import com.example.socceranalysis.alertDialogs.AddEventAlertDialog;
-import com.example.socceranalysis.sharedData.AppData;
-import com.example.socceranalysis.utils.Event;
+import com.soccerAnalyst.alertDialogs.AddEventAlertDialog;
+import com.soccerAnalyst.sharedData.AppData;
+import com.soccerAnalyst.utils.Event;
 
 
 public class GameFragment extends Fragment implements AdapterView.OnItemSelectedListener , View.OnClickListener

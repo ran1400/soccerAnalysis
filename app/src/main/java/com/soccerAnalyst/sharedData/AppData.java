@@ -1,14 +1,14 @@
-package com.example.socceranalysis.sharedData;
+package com.soccerAnalyst.sharedData;
 
 
 import android.util.Log;
 
-import com.example.socceranalysis.EventsFragment;
-import com.example.socceranalysis.GameFragment;
-import com.example.socceranalysis.MainActivity;
-import com.example.socceranalysis.SettingFragment;
-import com.example.socceranalysis.utils.Event;
-import com.example.socceranalysis.utils.Game;
+import com.soccerAnalyst.EventsFragment;
+import com.soccerAnalyst.GameFragment;
+import com.soccerAnalyst.MainActivity;
+import com.soccerAnalyst.SettingFragment;
+import com.soccerAnalyst.utils.Event;
+import com.soccerAnalyst.utils.Game;
 
 
 import java.util.ArrayList;

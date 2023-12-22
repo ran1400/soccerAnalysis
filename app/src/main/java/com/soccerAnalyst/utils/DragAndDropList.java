@@ -1,4 +1,4 @@
-package com.example.socceranalysis.utils;
+package com.soccerAnalyst.utils;
 import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -8,9 +8,9 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.socceranalysis.R;
-import com.example.socceranalysis.SettingFragment;
-import com.example.socceranalysis.sharedData.AppData;
+import com.soccerAnalyst.R;
+import com.soccerAnalyst.SettingFragment;
+import com.soccerAnalyst.sharedData.AppData;
 
 import java.util.List;
 

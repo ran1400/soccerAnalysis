@@ -1,6 +1,5 @@
-package com.example.socceranalysis.utils;
+package com.soccerAnalyst.utils;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 

@@ -9,7 +9,7 @@
       "client_info": {
         "mobilesdk_app_id": "1:913749086831:android:e99c7411988042192d339a",
         "android_client_info": {
-          "package_name": "com.example.socceranalysis"
+          "package_name": "com.soccerAnalyst"
         }
       },
       "oauth_client": [

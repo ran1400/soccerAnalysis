@@ -1,4 +1,4 @@
-package com.example.socceranalysis;
+package com.soccerAnalyst;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -12,10 +12,10 @@ import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 
-import com.example.socceranalysis.sharedData.AppData;
-import com.example.socceranalysis.utils.Event;
-import com.example.socceranalysis.utils.saveInMemoryLists.EventsList;
-import com.example.socceranalysis.utils.saveInMemoryLists.GamesList;
+import com.soccerAnalyst.sharedData.AppData;
+import com.soccerAnalyst.utils.Event;
+import com.soccerAnalyst.utils.saveInMemoryLists.EventsList;
+import com.soccerAnalyst.utils.saveInMemoryLists.GamesList;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.gson.Gson;
 
