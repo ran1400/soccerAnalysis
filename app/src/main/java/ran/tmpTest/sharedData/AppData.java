@@ -36,20 +36,11 @@ public class AppData
     public static int listChoosePosition = -1; // for drag and dop list
 
 
-    public static List<String> getGamesStringList()
+    public static void makeGamesStringList()
     {
-        List<String> res = null;
-        try
-        {
-            res = new ArrayList<>();
-            for(Game game : games)
-                res.add(game.gameName);
-        }
-        catch (Exception e)
-        {
-            Log.d("ranCheck",e.toString());
-        }
-        return res;
+        gamesStringList = new ArrayList<>();
+        for(Game game : games)
+            gamesStringList.add(game.gameName);
     }
 
     /*public void addExamples() // for checks

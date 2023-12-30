@@ -45,32 +45,7 @@ public class MainActivity extends AppCompatActivity
         AppData.mainActivity = this;
         sharedPreferences = getSharedPreferences("appData", Context.MODE_PRIVATE);
         editor = sharedPreferences.edit();
-        EventsList events = getDataFromMemory("events",EventsList.class);
-        if (events == null)
-            AppData.events = new ArrayList<>();
-        else
-            AppData.events = events.list;
-        GamesList games = getDataFromMemory("games",GamesList.class);
-        if ( games == null)
-            AppData.games = new ArrayList<>();
-        else
-            AppData.games = games.list;
-        AppData.gamesStringList = AppData.getGamesStringList();
-        GameFragment.gameChosen = sharedPreferences.getInt("gameChosenGameFragment",-1);
-        EventsFragment.gameChosen = sharedPreferences.getInt("gameChosenEventsFragment",-1);
-        AppData.clockRun = sharedPreferences.getBoolean("clockRun",false);
-        Event.GamePart gamePartChosen = getDataFromMemory("gamePartChosen", Event.GamePart.class);
-        if (gamePartChosen == null)
-            AppData.gamePartChosen = Event.GamePart.HALF_1;
-        else
-            AppData.gamePartChosen = gamePartChosen;
-        Event.Team teamChosen = getDataFromMemory("teamChosen", Event.Team.class);
-        if (teamChosen == null)
-            AppData.teamChosen = Event.Team.NON;
-        else
-            AppData.teamChosen = teamChosen;
-        AppData.playerChosenDigit1 = sharedPreferences.getInt("playerChosenDigit1",0);
-        AppData.playerChosenDigit2 = sharedPreferences.getInt("playerChosenDigit2",0);
+        getDataFromMemory();
         clockCheck();
         AppData.gameFragment = new GameFragment();
         loadFragment(AppData.gameFragment);
@@ -99,7 +74,6 @@ public class MainActivity extends AppCompatActivity
         Log.d("mainActivity", " : pause");
     }
 
-
     protected void onResume()
     {
         super.onResume();
@@ -107,10 +81,38 @@ public class MainActivity extends AppCompatActivity
         Log.d("mainActivityCheck", " : resume");
     }
 
+    private void getDataFromMemory()
+    {
+        EventsList events = getDataFromMemory("events",EventsList.class);
+        if (events == null)
+            AppData.events = new ArrayList<>();
+        else
+            AppData.events = events.list;
+        GamesList games = getDataFromMemory("games",GamesList.class);
+        if ( games == null)
+            AppData.games = new ArrayList<>();
+        else
+            AppData.games = games.list;
+        AppData.makeGamesStringList();
+        GameFragment.gameChosen = sharedPreferences.getInt("gameChosenGameFragment",-1);
+        EventsFragment.gameChosen = sharedPreferences.getInt("gameChosenEventsFragment",-1);
+        AppData.clockRun = sharedPreferences.getBoolean("clockRun",false);
+        Event.GamePart gamePartChosen = getDataFromMemory("gamePartChosen", Event.GamePart.class);
+        if (gamePartChosen == null)
+            AppData.gamePartChosen = Event.GamePart.HALF_1;
+        else
+            AppData.gamePartChosen = gamePartChosen;
+        Event.Team teamChosen = getDataFromMemory("teamChosen", Event.Team.class);
+        if (teamChosen == null)
+            AppData.teamChosen = Event.Team.NON;
+        else
+            AppData.teamChosen = teamChosen;
+        AppData.playerChosenDigit1 = sharedPreferences.getInt("playerChosenDigit1",0);
+        AppData.playerChosenDigit2 = sharedPreferences.getInt("playerChosenDigit2",0);
+    }
+
     protected void clockCheck()
     {
-
-        Log.d("clockRun(57 M_A )", " : " + AppData.clockRun);
         if ( AppData.clockRun )
         {
             AppData.min = sharedPreferences.getInt("min", 0);

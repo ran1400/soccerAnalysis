@@ -26,7 +26,6 @@ public class EventsFragment extends Fragment implements AdapterView.OnItemSelect
     public static int gameChosen;
     private TextView gameEvents;
     private List<Event> listToShow;
-
     private Button saveFileBtn;
     private Spinner chooseGameDropDownList;
 
@@ -36,12 +35,10 @@ public class EventsFragment extends Fragment implements AdapterView.OnItemSelect
         super.onCreate(savedInstanceState);
     }
 
-    @SuppressLint("MissingInflatedId")
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState)
     {
-        // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_events, container, false);
         AppData.eventsFragment = this;
         saveFileBtn = view.findViewById(R.id.saveFileBtn);
@@ -51,7 +48,7 @@ public class EventsFragment extends Fragment implements AdapterView.OnItemSelect
             saveFileBtn.setVisibility(View.INVISIBLE);
             return view;
         }
-        saveFileBtn.setOnClickListener(this::setSaveFileBtn);
+        saveFileBtn.setOnClickListener(this::saveFileBtn);
         gameEvents = view.findViewById(R.id.scrollViewText);
         chooseGameDropDownList = (Spinner)view.findViewById(R.id.dropDownList);
         createDropDownList();
@@ -65,7 +62,7 @@ public class EventsFragment extends Fragment implements AdapterView.OnItemSelect
             chooseGameDropDownList.setSelection(gameChosen);
     }
 
-    public void setSaveFileBtn(View view)
+    public void saveFileBtn(View view)
     {
         ExelHandel exelHandel = new ExelHandel();
         boolean success =  exelHandel.makeEventsFile();

@@ -45,10 +45,9 @@
         app:layout_constraintVertical_bias="0.0" />
 
     <EditText
-        android:id="@+id/eventName"
+        android:id="@+id/eventOrGameEditText"
         android:layout_width="match_parent"
         android:layout_height="50dp"
-
         android:hint="הכנס שם אירוע"
         android:maxLength="30"
         android:singleLine="true"
@@ -89,7 +88,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/delete"
-        app:layout_constraintTop_toBottomOf="@id/eventName" />
+        app:layout_constraintTop_toBottomOf="@id/eventOrGameEditText" />
 
 
     <RadioGroup
@@ -97,7 +96,6 @@
         android:layout_width="wrap_content"
         android:layout_height="55dp"
         app:layout_constraintBottom_toBottomOf="parent"
-
         app:layout_constraintLeft_toLeftOf="parent">
 
         <RadioButton
@@ -105,9 +103,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:checked="true"
-            android:hint="g"
             android:text="לראש הרשימה" />
-        <!--  g is garbage value -->
 
         <RadioButton
             android:id="@+id/addToDown"
@@ -121,12 +117,11 @@
         android:layout_width="0dp"
         android:layout_height="50dp"
         android:background="@drawable/outline"
-
         android:orientation="horizontal"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/eventName"
-        app:layout_constraintBottom_toTopOf="@id/eventName"
+        app:layout_constraintTop_toBottomOf="@id/eventOrGameEditText"
+        app:layout_constraintBottom_toTopOf="@id/eventOrGameEditText"
        >
 
         <RadioButton

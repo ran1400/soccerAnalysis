@@ -34,7 +34,7 @@ import ran.tmpTest.sharedData.AppData;
 import ran.tmpTest.utils.Event;
 
 
-public class GameFragment extends Fragment implements AdapterView.OnItemSelectedListener , View.OnClickListener
+public class GameFragment extends Fragment
 {
     public static int gameChosen;
     private View view;
@@ -58,7 +58,7 @@ public class GameFragment extends Fragment implements AdapterView.OnItemSelected
         AppData.gameFragment = this;
         chooseGame = view.findViewById(R.id.dropDownList);
         scrollViewLayout = view.findViewById(R.id.scrollViewLayout);
-        createDropDownList(view);
+        createDropDownList();
         setScrollSize();
         msgToUser = view.findViewById(R.id.msgToUser);
         msgToUser.setVisibility(View.INVISIBLE);
@@ -67,35 +67,22 @@ public class GameFragment extends Fragment implements AdapterView.OnItemSelected
         setPlayerNumPickers();
         clock = view.findViewById(R.id.clock);
         playBtn = view.findViewById(R.id.playBtn);
-        playBtn.setOnClickListener(this);
+        playBtn.setOnClickListener((View)->playBtn());
         stopBtn = view.findViewById(R.id.stopBtn);
-        stopBtn.setOnClickListener(this);
+        stopBtn.setOnClickListener((View)-> stopBtn());
         gamePart = view.findViewById(R.id.gamePart);
         team = view.findViewById(R.id.selectTeam);
         specialEvent = view.findViewById(R.id.specialEvent);
-        specialEvent.setOnClickListener(this);
+        specialEvent.setOnClickListener((View)->specialEvent());
         createButtons(view,AppData.events);
-        Log.d("check81",AppData.clockRun+"");
         if (AppData.clockRun)
         {
             playBtn.setVisibility(View.INVISIBLE);
             clock.setText(makeClockText());
             startClock();
         }
-        gamePart.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener()
-        {
-            public void onCheckedChanged(RadioGroup group, int checkedId)
-            {
-                setGamePartValue(checkedId);
-            }
-        });
-        team.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener()
-        {
-            public void onCheckedChanged(RadioGroup group, int checkedId)
-            {
-                SetTeamValue(checkedId);
-            }
-        });
+        gamePart.setOnCheckedChangeListener((group, checkedId) -> setGamePartValue(checkedId));
+        team.setOnCheckedChangeListener((group, checkedId) -> SetTeamValue(checkedId));
         clock.setTextColor(Color.BLACK);
         playerDigit1.setValue(AppData.playerChosenDigit1);
         playerDigit2.setValue(AppData.playerChosenDigit2);
@@ -123,6 +110,23 @@ public class GameFragment extends Fragment implements AdapterView.OnItemSelected
         }
     }
 
+    private AdapterView.OnItemSelectedListener onSelectGameDropDownList()
+    {
+        return new AdapterView.OnItemSelectedListener()
+        {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id)
+            {
+                GameFragment.gameChosen = position;
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView)
+            {
+                GameFragment.gameChosen = -1;
+            }
+        };
+    }
     public void specialEvent()
     {
         if(AppData.games.isEmpty())
@@ -223,13 +227,13 @@ public class GameFragment extends Fragment implements AdapterView.OnItemSelected
         playerDigit2.setMaxValue(9);
     }
 
-    public void createDropDownList(View view)
+    public void createDropDownList()
     {
         ArrayAdapter<String>adapter = new ArrayAdapter<String>(getActivity(),
                 android.R.layout.simple_spinner_item,AppData.gamesStringList);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         chooseGame.setAdapter(adapter);
-        chooseGame.setOnItemSelectedListener(this);
+        chooseGame.setOnItemSelectedListener(onSelectGameDropDownList());
     }
 
 
@@ -304,40 +308,11 @@ public class GameFragment extends Fragment implements AdapterView.OnItemSelected
             return new Event(gamePart,team,0,0,playerNum,eventName);
     }
 
-    @Override
-    public void onItemSelected(AdapterView<?> parent, View view, int position, long id)
-    {
-        GameFragment.gameChosen = position;
-    }
-
-    @Override
-    public void onNothingSelected(AdapterView<?> parent)
-    {
-        GameFragment.gameChosen = -1;
-    }
-
-    @Override
-    public void onClick(View v)
-    {
-        switch (v.getId())
-        {
-            case R.id.playBtn:
-                playBtn();
-                break;
-            case R.id.stopBtn :
-                stopBtn();
-                break;
-            case R.id.specialEvent :
-                specialEvent();
-        }
-    }
-
     public void playBtn()
     {
         if (GameFragment.gameChosen == -1)
         {
-            Toast.makeText(getActivity(), "הוסף משחק בהגדרות",
-                    Toast.LENGTH_LONG).show();
+            Toast.makeText(getActivity(), "הוסף משחק בהגדרות", Toast.LENGTH_LONG).show();
             return;
         }
         startClock();
