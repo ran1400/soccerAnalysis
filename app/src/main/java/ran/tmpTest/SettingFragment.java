@@ -197,7 +197,7 @@ public class SettingFragment extends Fragment
         String changeToName = eventOrNameEditText.getText().toString();
         if (changeToName.isEmpty())
         {
-            Toast.makeText(getActivity(), eventOrNameEditText.getHint(), Toast.LENGTH_LONG).show();
+            Toast.makeText(getActivity(), eventOrNameEditText.getHint(), Toast.LENGTH_SHORT).show();
             return;
         }
         AppData.listToShow.set(AppData.listChoosePosition, changeToName);
@@ -235,7 +235,7 @@ public class SettingFragment extends Fragment
         String newName = eventOrNameEditText.getText().toString();
         if (newName.isEmpty())
         {
-            Toast.makeText(getActivity(), eventOrNameEditText.getHint(), Toast.LENGTH_LONG).show();
+            Toast.makeText(getActivity(), eventOrNameEditText.getHint(), Toast.LENGTH_SHORT).show();
             return;
         }
         if ( whereToadd.getCheckedRadioButtonId() == R.id.addToUp )
