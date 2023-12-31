@@ -7,7 +7,6 @@ import android.os.Bundle;
 import android.app.Fragment;
 
 import android.os.Handler;
-import android.util.Log;
 import android.view.ContextThemeWrapper;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -27,8 +26,6 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 
 import java.util.List;
 
-import ran.tmpTest.R;
-
 import ran.tmpTest.alertDialogs.AddEventAlertDialog;
 import ran.tmpTest.sharedData.AppData;
 import ran.tmpTest.utils.Event;
@@ -46,8 +43,8 @@ public class GameFragment extends Fragment
     private Button specialEvent;
     private ConstraintLayout scrollViewLayout;
 
-    private Runnable runnable = new Runnable(); //clock
-    private Handler handler = new Handler(); // clock
+    private ClockThread clockThread = new ClockThread();
+    private Handler clockHandler = new Handler();
     private Spinner chooseGame;
 
     @Override
@@ -91,6 +88,12 @@ public class GameFragment extends Fragment
         if (AppData.games.isEmpty() == false && AppData.events.isEmpty() == false)
             msgToUser.setVisibility(View.INVISIBLE);
         return view;
+    }
+
+    public void onDestroy()
+    {
+        super.onDestroy();
+        clockHandler.removeCallbacks(clockThread);
     }
 
     @Override
@@ -329,11 +332,11 @@ public class GameFragment extends Fragment
     }
 
 
-    private class Runnable implements java.lang.Runnable
+    private class ClockThread implements java.lang.Runnable
     {
         public void run()
         {
-            handler.postDelayed(runnable, 1000);
+            clockHandler.postDelayed(clockThread, 1000);
             AppData.sec++;
             if (AppData.sec == 60)
             {
@@ -363,13 +366,13 @@ public class GameFragment extends Fragment
     public void stopClock()
     {
         AppData.clockRun = false;
-        handler.removeCallbacks(runnable);
+        clockHandler.removeCallbacks(clockThread);
     }
 
     public void startClock()
     {
         AppData.clockRun = true;
-        handler.removeCallbacks(runnable);
-        runnable.run();
+        //handler.removeCallbacks(runnable);
+        clockThread.run();
     }
 }
