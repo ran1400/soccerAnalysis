@@ -74,13 +74,6 @@ public class MainActivity extends AppCompatActivity
         Log.d("mainActivity", " : pause");
     }
 
-    protected void onResume()
-    {
-        super.onResume();
-        clockCheck();
-        Log.d("mainActivityCheck", " : resume");
-    }
-
     private void getDataFromMemory()
     {
         EventsList events = getDataFromMemory("events",EventsList.class);
@@ -119,7 +112,7 @@ public class MainActivity extends AppCompatActivity
             AppData.sec = sharedPreferences.getInt("sec", 0);
             long pastTime = sharedPreferences.getLong("time", 0);
             int timeToAdd = (int) ((System.currentTimeMillis() - pastTime) / 1000);
-            AppData.sec = sharedPreferences.getInt("sec", 0) + (timeToAdd % 60);
+            AppData.sec += (timeToAdd % 60);
             if (AppData.sec >= 60)
             {
                 AppData.sec -= 60;

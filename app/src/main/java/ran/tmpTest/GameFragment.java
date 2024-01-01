@@ -74,13 +74,11 @@ public class GameFragment extends Fragment
         createButtons(view,AppData.events);
         if (AppData.clockRun)
         {
-            playBtn.setVisibility(View.INVISIBLE);
-            clock.setText(makeClockText());
             startClock();
+            playBtn.setVisibility(View.INVISIBLE);
         }
         gamePart.setOnCheckedChangeListener((group, checkedId) -> setGamePartValue(checkedId));
         team.setOnCheckedChangeListener((group, checkedId) -> SetTeamValue(checkedId));
-        clock.setTextColor(Color.BLACK);
         playerDigit1.setValue(AppData.playerChosenDigit1);
         playerDigit2.setValue(AppData.playerChosenDigit2);
         setGamePart();
@@ -313,18 +311,14 @@ public class GameFragment extends Fragment
 
     public void playBtn()
     {
-        if (GameFragment.gameChosen == -1)
-        {
-            Toast.makeText(getActivity(), "הוסף משחק בהגדרות", Toast.LENGTH_LONG).show();
-            return;
-        }
         startClock();
         playBtn.setVisibility(View.INVISIBLE);
     }
 
     public void stopBtn()
     {
-        stopClock();
+        AppData.clockRun = false;
+        clockHandler.removeCallbacks(clockThread);
         clock.setText("00:00");
         AppData.min = 0;
         AppData.sec = -1;
@@ -363,16 +357,9 @@ public class GameFragment extends Fragment
         return minText + ":" + secText;
     }
 
-    public void stopClock()
-    {
-        AppData.clockRun = false;
-        clockHandler.removeCallbacks(clockThread);
-    }
-
     public void startClock()
     {
         AppData.clockRun = true;
-        //handler.removeCallbacks(runnable);
         clockThread.run();
     }
 }
