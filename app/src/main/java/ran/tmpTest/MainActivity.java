@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.Log;
 import android.view.View;
 
@@ -36,6 +37,12 @@ public class MainActivity extends AppCompatActivity
 
     private View mainActivityView;
 
+    private ClockThread clockThread;
+
+    private Handler clockHandler;
+
+    private final int CLOCK_MAX_VALUE = 999; //in minutes
+
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
@@ -46,7 +53,8 @@ public class MainActivity extends AppCompatActivity
         sharedPreferences = getSharedPreferences("appData", Context.MODE_PRIVATE);
         editor = sharedPreferences.edit();
         getDataFromMemory();
-        clockCheck();
+        clockHandler = new Handler();
+        clockThread = new ClockThread();
         AppData.gameFragment = new GameFragment();
         loadFragment(AppData.gameFragment);
     }
@@ -71,7 +79,58 @@ public class MainActivity extends AppCompatActivity
         editor.putInt("playerChosenDigit1",AppData.playerChosenDigit1);
         editor.putInt("playerChosenDigit2",AppData.playerChosenDigit2);
         editor.commit();
-        Log.d("mainActivity", " : pause");
+        clockHandler.removeCallbacks(clockThread);
+    }
+
+    public void onResume()
+    {
+        super.onResume();
+        clockCheck();
+    }
+
+    private class ClockThread implements java.lang.Runnable
+    {
+        public void run()
+        {
+            clockHandler.postDelayed(clockThread, 1000);
+            AppData.sec++;
+            if (AppData.sec == 60)
+            {
+                AppData.min++;
+                if (AppData.min > CLOCK_MAX_VALUE)
+                {
+                    stopClock();
+                    return;
+                }
+                AppData.sec = 0;
+            }
+            try
+            {
+                if (AppData.gameFragment.isVisible())
+                    AppData.gameFragment.updateClockText();
+            }
+            catch(Exception exception) {/*fragment not visible*/}
+        }
+    }
+
+    public void startClock()
+    {
+        AppData.clockRun = true;
+        clockThread.run();
+    }
+
+    public void stopClock()
+    {
+        AppData.clockRun = false;
+        clockHandler.removeCallbacks(clockThread);
+        AppData.min = 0;
+        AppData.sec = -1;
+        try
+        {
+            if (AppData.gameFragment.isVisible())
+                AppData.gameFragment.resetClock();
+        }
+        catch(Exception exception) {/*fragment not visible*/}
     }
 
     private void getDataFromMemory()
@@ -104,7 +163,7 @@ public class MainActivity extends AppCompatActivity
         AppData.playerChosenDigit2 = sharedPreferences.getInt("playerChosenDigit2",0);
     }
 
-    protected void clockCheck()
+    private void clockCheck()
     {
         if ( AppData.clockRun )
         {
@@ -116,21 +175,25 @@ public class MainActivity extends AppCompatActivity
             if (AppData.sec >= 60)
             {
                 AppData.sec -= 60;
-                AppData.min =  (timeToAdd / 60) + 1;
+                AppData.min +=  (timeToAdd / 60) + 1;
             }
             else
                 AppData.min += (timeToAdd / 60) ;
-            if (AppData.min > 999 )
+            if (AppData.min > CLOCK_MAX_VALUE )
             {
                 AppData.clockRun = false;
-                AppData.min = 0;
-                AppData.sec = -1;
+                stopClock();
             }
-        }
-        else
-        {
-            AppData.min = 0;
-            AppData.sec = -1;
+            else
+            {
+                try
+                {
+                    if (AppData.gameFragment.isVisible())
+                        AppData.gameFragment.updateClockText();
+                }
+                catch(Exception exception) {/*fragment not visible*/}
+                clockThread.run();
+            }
         }
     }
 

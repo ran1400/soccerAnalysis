@@ -1,12 +1,10 @@
 package ran.tmpTest;
 
 import android.content.Context;
-import android.graphics.Color;
 import android.os.Bundle;
 
 import android.app.Fragment;
 
-import android.os.Handler;
 import android.view.ContextThemeWrapper;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -42,9 +40,6 @@ public class GameFragment extends Fragment
 
     private Button specialEvent;
     private ConstraintLayout scrollViewLayout;
-
-    private ClockThread clockThread = new ClockThread();
-    private Handler clockHandler = new Handler();
     private Spinner chooseGame;
 
     @Override
@@ -70,13 +65,8 @@ public class GameFragment extends Fragment
         gamePart = view.findViewById(R.id.gamePart);
         team = view.findViewById(R.id.selectTeam);
         specialEvent = view.findViewById(R.id.specialEvent);
-        specialEvent.setOnClickListener((View)->specialEvent());
-        createButtons(view,AppData.events);
-        if (AppData.clockRun)
-        {
-            startClock();
-            playBtn.setVisibility(View.INVISIBLE);
-        }
+        specialEvent.setOnClickListener((View)-> specialEventBtn());
+        createEventButtons(view,AppData.events);
         gamePart.setOnCheckedChangeListener((group, checkedId) -> setGamePartValue(checkedId));
         team.setOnCheckedChangeListener((group, checkedId) -> SetTeamValue(checkedId));
         playerDigit1.setValue(AppData.playerChosenDigit1);
@@ -86,12 +76,6 @@ public class GameFragment extends Fragment
         if (AppData.games.isEmpty() == false && AppData.events.isEmpty() == false)
             msgToUser.setVisibility(View.INVISIBLE);
         return view;
-    }
-
-    public void onDestroy()
-    {
-        super.onDestroy();
-        clockHandler.removeCallbacks(clockThread);
     }
 
     @Override
@@ -109,6 +93,13 @@ public class GameFragment extends Fragment
         {
             chooseGame.setSelection(GameFragment.gameChosen);
         }
+        if (AppData.clockRun)
+        {
+            playBtn.setVisibility(View.INVISIBLE);
+            updateClockText();
+        }
+        else
+            clock.setText("00:00");
     }
 
     private AdapterView.OnItemSelectedListener onSelectGameDropDownList()
@@ -128,7 +119,7 @@ public class GameFragment extends Fragment
             }
         };
     }
-    public void specialEvent()
+    public void specialEventBtn()
     {
         if(AppData.games.isEmpty())
         {
@@ -253,7 +244,7 @@ public class GameFragment extends Fragment
         scrollViewLayout.setLayoutParams(params);
     }
 
-    public void createButtons(View view , List<String> list)
+    public void createEventButtons(View view , List<String> list)
     {
         if (AppData.gamesStringList.size() == 0)
         {
@@ -311,37 +302,29 @@ public class GameFragment extends Fragment
 
     public void playBtn()
     {
-        startClock();
+        AppData.mainActivity.startClock();
         playBtn.setVisibility(View.INVISIBLE);
     }
 
     public void stopBtn()
     {
-        AppData.clockRun = false;
-        clockHandler.removeCallbacks(clockThread);
-        clock.setText("00:00");
-        AppData.min = 0;
-        AppData.sec = -1;
-        playBtn.setVisibility(View.VISIBLE);
+        AppData.mainActivity.stopClock();
     }
 
-
-    private class ClockThread implements java.lang.Runnable
+    public void resetClock()
     {
-        public void run()
-        {
-            clockHandler.postDelayed(clockThread, 1000);
-            AppData.sec++;
-            if (AppData.sec == 60)
-            {
-                AppData.min++;
-                AppData.sec = 0;
-            }
-            clock.setText(makeClockText());
-            if (AppData.min == 1000)
-                stopBtn();
-        }
+        playBtn.setVisibility(View.VISIBLE);
+        clock.setText("00:00");
     }
+
+
+    public void updateClockText()
+    {
+        clock.setText(makeClockText());
+    }
+
+
+
 
     public static String makeClockText()
     {
@@ -355,11 +338,5 @@ public class GameFragment extends Fragment
         else
             secText = "0" + AppData.sec;
         return minText + ":" + secText;
-    }
-
-    public void startClock()
-    {
-        AppData.clockRun = true;
-        clockThread.run();
     }
 }
