@@ -6,10 +6,16 @@ import java.util.List;
 public class Game
 {
     public  String gameName;
-    public List<Event> events;
+    public ArrayList<Event> events;
     public Game(String gameName)
     {
         this.gameName = gameName;
         events = new ArrayList<>();
+    }
+
+    public void removeLestEvent()
+    {
+        int lestEventIndex = events.size() -1;
+        events.remove(lestEventIndex);
     }
 }

@@ -1,6 +1,5 @@
 package ran.tmpTest;
 
-import android.graphics.Color;
 import android.os.Bundle;
 
 import android.app.Fragment;
@@ -34,9 +33,7 @@ public class SettingFragment extends Fragment
     RecyclerView eventsListView,gamesListView;
     DragAndDropList eventsList,gamesList,crntList;
 
-    TextView header, eventOrNameEditText;
-
-
+    TextView header, eventOrGameEditText;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,Bundle savedInstanceState)
@@ -46,7 +43,7 @@ public class SettingFragment extends Fragment
         selectList = view.findViewById(R.id.selectList);
         whereToadd = view.findViewById(R.id.whereToAdd);
         header = view.findViewById(R.id.topHeader);
-        eventOrNameEditText = view.findViewById(R.id.eventOrGameEditText);
+        eventOrGameEditText = view.findViewById(R.id.eventOrGameEditText);
         deleteBtn = view.findViewById(R.id.delete);
         deleteBtn.setOnClickListener((View) -> deleteBtn());
         editBtn = view.findViewById(R.id.edit);
@@ -63,16 +60,32 @@ public class SettingFragment extends Fragment
         return view;
     }
 
+    public void onResume()
+    {
+        super.onResume();
+        eventOrGameEditText.setText("");
+    }
+
     public void onStop()
     {
         super.onStop();
-        AppData.listChoosePosition = -1;
-        crntList.notifyItemChanged(AppData.listChoosePosition);
+        dismissKeyboard();
+        if(AppData.listChoosePosition != -1)
+        {
+            AppData.listChoosePosition = -1;
+            crntList.notifyItemChanged(AppData.listChoosePosition);
+        }
+    }
+
+    private void dismissKeyboard()
+    {
+        eventOrGameEditText.setEnabled(false);
+        eventOrGameEditText.setEnabled(true);
     }
 
     private void onListChange(int checkedId)
     {
-        eventOrNameEditText.setText("");
+        eventOrGameEditText.setText("");
         int itemChoosePosition = AppData.listChoosePosition;
         AppData.listChoosePosition = -1;
         changeToNoneChooseListItemMode();
@@ -85,7 +98,7 @@ public class SettingFragment extends Fragment
                 gamesListView.setVisibility(View.VISIBLE);
                 eventsListView.setVisibility(View.INVISIBLE);
                 header.setText("רשימת משחקים :");
-                eventOrNameEditText.setHint("הכנס שם משחק");
+                eventOrGameEditText.setHint("הכנס שם משחק");
                 addBtn.setText("הוסף משחק");
                 editBtn.setText("שנה שם משחק");
                 deleteBtn.setText("מחק משחק");
@@ -97,7 +110,7 @@ public class SettingFragment extends Fragment
                 gamesListView.setVisibility(View.INVISIBLE);
                 eventsListView.setVisibility(View.VISIBLE);
                 header.setText("רשימת אירועים :");
-                eventOrNameEditText.setHint("הכנס שם אירוע");
+                eventOrGameEditText.setHint("הכנס שם אירוע");
                 addBtn.setText("הוסף אירוע");
                 editBtn.setText("שנה אירוע");
                 deleteBtn.setText("מחק אירוע");
@@ -105,7 +118,7 @@ public class SettingFragment extends Fragment
         }
     }
 
-    private void changeToChooseListItemMode()
+    public void changeToChooseListItemMode()
     {
         deleteBtn.setVisibility(View.VISIBLE);
         editBtn.setVisibility(View.VISIBLE);
@@ -113,25 +126,17 @@ public class SettingFragment extends Fragment
         whereToadd.setVisibility(View.INVISIBLE);
     }
 
-    private void changeToNoneChooseListItemMode()
+    public void changeToNoneChooseListItemMode()
     {
+        AppData.listChoosePosition = -1;
         deleteBtn.setVisibility(View.INVISIBLE);
         editBtn.setVisibility(View.INVISIBLE);
         addBtn.setVisibility(View.VISIBLE);
         whereToadd.setVisibility(View.VISIBLE);
     }
-
-    public void changeMode() //call from DragAndDropList when item from the list pressed
-    {
-        if (AppData.listChoosePosition == -1)
-            changeToNoneChooseListItemMode();
-        else
-            changeToChooseListItemMode();
-    }
-
     public DragAndDropList createDragAndDropList(List<String> list,RecyclerView recyclerView)
     {
-        DragAndDropList recyclerAdapter = new DragAndDropList(list,this);
+        DragAndDropList recyclerAdapter = new DragAndDropList(list);
         recyclerView.setAdapter(recyclerAdapter);
         DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(getActivity(), DividerItemDecoration.VERTICAL);
         recyclerView.addItemDecoration(dividerItemDecoration);
@@ -194,18 +199,17 @@ public class SettingFragment extends Fragment
 
     private void editBtn()
     {
-        String changeToName = eventOrNameEditText.getText().toString();
+        String changeToName = eventOrGameEditText.getText().toString();
         if (changeToName.isEmpty())
         {
-            Toast.makeText(getActivity(), eventOrNameEditText.getHint(), Toast.LENGTH_SHORT).show();
+            Toast.makeText(getActivity(), eventOrGameEditText.getHint(), Toast.LENGTH_SHORT).show();
             return;
         }
         AppData.listToShow.set(AppData.listChoosePosition, changeToName);
         if (AppData.listToShow == AppData.gamesStringList)
             AppData.games.get(AppData.listChoosePosition).gameName = changeToName;
-        eventOrNameEditText.setText("");
+        eventOrGameEditText.setText("");
         int prevListChoosePosition = AppData.listChoosePosition;
-        AppData.listChoosePosition = -1;
         changeToNoneChooseListItemMode();
         crntList.notifyItemChanged(prevListChoosePosition);
     }
@@ -225,17 +229,16 @@ public class SettingFragment extends Fragment
                 EventsFragment.gameChosen--;
         }
         AppData.listToShow.remove(AppData.listChoosePosition);
-        eventOrNameEditText.setText("");
+        eventOrGameEditText.setText("");
         crntList.notifyItemRemoved(AppData.listChoosePosition);
-        AppData.listChoosePosition = -1;
         changeToNoneChooseListItemMode();
     }
     private void addBtn()
     {
-        String newName = eventOrNameEditText.getText().toString();
+        String newName = eventOrGameEditText.getText().toString();
         if (newName.isEmpty())
         {
-            Toast.makeText(getActivity(), eventOrNameEditText.getHint(), Toast.LENGTH_SHORT).show();
+            Toast.makeText(getActivity(), eventOrGameEditText.getHint(), Toast.LENGTH_SHORT).show();
             return;
         }
         if ( whereToadd.getCheckedRadioButtonId() == R.id.addToUp )
@@ -258,6 +261,6 @@ public class SettingFragment extends Fragment
             AppData.listToShow.add(newName);
             crntList.notifyItemInserted(AppData.listToShow.size() -1);
         }
-        eventOrNameEditText.setText("");
+        eventOrGameEditText.setText("");
     }
 }

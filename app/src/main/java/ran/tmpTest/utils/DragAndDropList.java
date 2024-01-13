@@ -17,14 +17,11 @@ import java.util.List;
 public class DragAndDropList extends RecyclerView.Adapter<DragAndDropList.ViewHolder>
 {
 
-    //private static final String TAG = "RecyclerAdapter";
     List<String> list;
-    SettingFragment settingFragment;
 
-    public DragAndDropList(List<String> list,SettingFragment settingFragment)
+    public DragAndDropList(List<String> list)
     {
         this.list = list;
-        this.settingFragment = settingFragment;
     }
 
     @NonNull
@@ -68,27 +65,24 @@ public class DragAndDropList extends RecyclerView.Adapter<DragAndDropList.ViewHo
         @Override
         public void onClick(View view)
         {
-            if (AppData.listChoosePosition != getAdapterPosition())
+            if (AppData.listChoosePosition == -1) // none choose item from the list before click
             {
-                if (AppData.listChoosePosition != -1)
-                {
-                    int prevChoosePosition = AppData.listChoosePosition;
-                    AppData.listChoosePosition = getAdapterPosition();
-                    notifyItemChanged(prevChoosePosition);
-                    notifyItemChanged(AppData.listChoosePosition);
-                }
-                else
-                {
-                    AppData.listChoosePosition = getAdapterPosition();
-                    notifyItemChanged(AppData.listChoosePosition);
-                }
+                AppData.listChoosePosition = getAdapterPosition();
+                notifyItemChanged(AppData.listChoosePosition);
+                AppData.settingFragment.changeToChooseListItemMode();
+            }
+            else if (AppData.listChoosePosition == getAdapterPosition())
+            {
+                AppData.settingFragment.changeToNoneChooseListItemMode();
+                notifyItemChanged(getAdapterPosition());
             }
             else
             {
-                AppData.listChoosePosition = -1;
-                notifyItemChanged(getAdapterPosition()) ;
+                int prevChoosePosition = AppData.listChoosePosition;
+                AppData.listChoosePosition = getAdapterPosition();
+                notifyItemChanged(prevChoosePosition);
+                notifyItemChanged(AppData.listChoosePosition);
             }
-            settingFragment.changeMode();
         }
 
     }

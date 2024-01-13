@@ -27,6 +27,7 @@ import java.util.List;
 import ran.tmpTest.alertDialogs.AddEventAlertDialog;
 import ran.tmpTest.sharedData.AppData;
 import ran.tmpTest.utils.Event;
+import ran.tmpTest.utils.Game;
 
 
 public class GameFragment extends Fragment
@@ -282,8 +283,9 @@ public class GameFragment extends Fragment
         public void onClick(View v) //buttonListClick
         {
             Event event = makeEvent(eventNum);
-            AppData.games.get(GameFragment.gameChosen).events.add(event);
-            AppData.mainActivity.showSnackBar("האירוע נרשם",300);
+            Game crntGame = AppData.games.get(GameFragment.gameChosen);
+            crntGame.events.add(event);
+            AppData.mainActivity.showEventAddedSnackBar(crntGame);
         }
     }
 

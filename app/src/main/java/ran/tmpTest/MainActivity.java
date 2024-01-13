@@ -17,6 +17,7 @@ import ran.tmpTest.R;
 
 import ran.tmpTest.sharedData.AppData;
 import ran.tmpTest.utils.Event;
+import ran.tmpTest.utils.Game;
 import ran.tmpTest.utils.saveInMemoryLists.EventsList;
 import ran.tmpTest.utils.saveInMemoryLists.GamesList;
 import com.google.android.material.snackbar.Snackbar;
@@ -201,6 +202,20 @@ public class MainActivity extends AppCompatActivity
     {
         Snackbar snackBar = Snackbar.make(mainActivityView, msg, Snackbar.LENGTH_SHORT);
         snackBar.setAction("", null).setDuration(time).show();
+    }
+
+    public void showEventAddedSnackBar(Game game)
+    {
+        Snackbar snackBar = Snackbar.make(mainActivityView,"האירוע נרשם", Snackbar.LENGTH_SHORT);
+        snackBar.setAction("ביטול", new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View view)
+            {
+                game.removeLestEvent();
+                showSnackBar("האירוע נמחק",500);
+            }
+        }).setDuration(700).show();
     }
 
     private void loadFragment(Fragment fragment)

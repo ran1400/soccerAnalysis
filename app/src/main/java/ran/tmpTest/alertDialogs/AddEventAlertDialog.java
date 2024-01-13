@@ -21,12 +21,16 @@ import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.material.snackbar.Snackbar;
+
 import ran.tmpTest.GameFragment;
+import ran.tmpTest.MainActivity;
 import ran.tmpTest.R;
 
 
 import ran.tmpTest.sharedData.AppData;
 import ran.tmpTest.utils.Event;
+import ran.tmpTest.utils.Game;
 
 
 public class AddEventAlertDialog extends AppCompatDialogFragment
@@ -35,13 +39,13 @@ public class AddEventAlertDialog extends AppCompatDialogFragment
     private NumberPicker playerDigit1,playerDigit2;
     private ConstraintLayout scrollViewLayout;
     private RadioGroup eventsRadioGroup;
-    private RadioButton specialEvent;
+    private RadioButton specialEventRadioButton;
     private EditText specialEventText;
     private TextView clockTextView,gamePartTextView;
     private Event.Team teamChosen;
     private final int personalEvent = -1;
     private int getEventChosenHelper;
-    private boolean keyboardUp = true;
+    private boolean keyboardUp = false;
     private View view;
 
     private Button saveBtn,cancelBtn;
@@ -56,22 +60,22 @@ public class AddEventAlertDialog extends AppCompatDialogFragment
         saveBtn = view.findViewById(R.id.saveButton);
         cancelBtn = view.findViewById(R.id.cancelButton);
         gamePartTextView = view.findViewById(R.id.gamePartText);
-        specialEvent = view.findViewById(R.id.specialEvent);
+        specialEventRadioButton = view.findViewById(R.id.specialEvent);
         specialEventText = view.findViewById(R.id.specialEventText);
         playerDigit1 = view.findViewById(R.id.playerDigit1);
         playerDigit2 = view.findViewById(R.id.playerDigit2);
         eventsRadioGroup = view.findViewById(R.id.eventsRadioGroup);
+        scrollViewLayout = view.findViewById(R.id.scrollViewLayout);
+        RadioGroup choseTeamRadioGroup = view.findViewById(R.id.selectTeam);
         cancelBtn.setOnClickListener(this::cancelBtn);
         saveBtn.setOnClickListener(this::saveBtn);
-        setPlayerNumPickers();
-        scrollViewLayout = view.findViewById(R.id.scrollViewLayout);
+        setPlayerNumPickers0To9();
         setScrollSize();
-        getEventChosenHelper = addEvents();
-        getDetails();
+        getEventChosenHelper = addEvents(); //button Id of the first event in list
+        setClockAndPickers();
         eventsRadioGroup.setOnCheckedChangeListener(this::eventsRadioGroupOnCheckedChanged);
-        specialEvent.setOnClickListener(this::showKeyboard);
+        specialEventRadioButton.setOnClickListener(this::showKeyboard);
         specialEventText.setOnClickListener(this::specialEventTextOnCLicked);
-        RadioGroup choseTeamRadioGroup = view.findViewById(R.id.selectTeam);
         choseTeamRadioGroup.setOnCheckedChangeListener(this::chooseTeamRadioBtnOnCheckedChanged);
         builder.setView(view);
         return builder.create();
@@ -81,18 +85,20 @@ public class AddEventAlertDialog extends AppCompatDialogFragment
 
     public void  specialEventTextOnCLicked(View view)
     {
-        eventsRadioGroup.check(specialEvent.getId());
+        eventsRadioGroup.check(specialEventRadioButton.getId());
         showKeyboard();
     }
 
     public void eventsRadioGroupOnCheckedChanged(RadioGroup group, int checkedId)
     {
-        if ( checkedId != specialEvent.getId() )
+        if ( checkedId != specialEventRadioButton.getId() )
         {
             specialEventText.setText("");
             specialEventText.setFocusable(false);
             hideKeyboard();
         }
+        else
+            showKeyboard();
     }
 
     public void chooseTeamRadioBtnOnCheckedChanged(RadioGroup group, int checkedId)
@@ -115,8 +121,9 @@ public class AddEventAlertDialog extends AppCompatDialogFragment
             return;
         }
         Event event = makeEvent(eventChosen);
-        AppData.games.get(GameFragment.gameChosen).events.add(event);
-        AppData.mainActivity.showSnackBar("האירוע נרשם",500);
+        Game crntGame = AppData.games.get(GameFragment.gameChosen);
+        crntGame.events.add(event);
+        AppData.mainActivity.showEventAddedSnackBar(crntGame);
         dismiss();
     }
 
@@ -143,7 +150,6 @@ public class AddEventAlertDialog extends AppCompatDialogFragment
         int checkedEvent = eventsRadioGroup.getCheckedRadioButtonId();
         if ( checkedEvent == R.id.specialEvent)
             return personalEvent;
-        Log.d("getEventChosen" , " = " + (checkedEvent - getEventChosenHelper));
         return checkedEvent - getEventChosenHelper;
     }
 
@@ -168,7 +174,7 @@ public class AddEventAlertDialog extends AppCompatDialogFragment
         return playerDigit1.getValue() * 10 + playerDigit2.getValue();
     }
 
-    private void getDetails()
+    private void setClockAndPickers()
     {
         if(AppData.clockRun)
         {
@@ -192,14 +198,14 @@ public class AddEventAlertDialog extends AppCompatDialogFragment
                 gamePartTextView.setText("הארכה 2");
         }
         teamChosen = AppData.teamChosen;
-        RadioButton gamePartRadioBtn ;
+        RadioButton gamePartRadioBtnToCheck ;
         if (teamChosen == Event.Team.NON)
-            gamePartRadioBtn = view.findViewById(R.id.noTeam);
+            gamePartRadioBtnToCheck = view.findViewById(R.id.noTeam);
         else if (teamChosen == Event.Team.HOME_TEAM)
-            gamePartRadioBtn = view.findViewById(R.id.home);
+            gamePartRadioBtnToCheck = view.findViewById(R.id.home);
         else // (teamChosen == Event.Team.AWAY_TEAM)
-            gamePartRadioBtn = view.findViewById(R.id.away);
-        gamePartRadioBtn.setChecked(true);
+            gamePartRadioBtnToCheck = view.findViewById(R.id.away);
+        gamePartRadioBtnToCheck.setChecked(true);
         playerDigit1.setValue(AppData.playerChosenDigit1);
         playerDigit2.setValue(AppData.playerChosenDigit2);
     }
@@ -210,14 +216,11 @@ public class AddEventAlertDialog extends AppCompatDialogFragment
 
     public void showKeyboard()
     {
-        if (keyboardUp == false)
-        {
             specialEventText.setFocusableInTouchMode(true);
             specialEventText.requestFocus();
             keyboardUp = true;
             InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(Activity.INPUT_METHOD_SERVICE);
             imm.toggleSoftInput(InputMethodManager.SHOW_IMPLICIT, 0);
-        }
     }
 
     private void hideKeyboard()
@@ -261,7 +264,7 @@ public class AddEventAlertDialog extends AppCompatDialogFragment
         return Math.round((float) dp * density);
     }
 
-    public void setPlayerNumPickers()
+    public void setPlayerNumPickers0To9()
     {
         playerDigit1.setMinValue(0);
         playerDigit2.setMinValue(0);
