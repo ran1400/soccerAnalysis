@@ -38,7 +38,6 @@ public class GameFragment extends Fragment
     private ImageButton playBtn,stopBtn;
     private RadioGroup gamePart,team;
     private NumberPicker playerDigit1,playerDigit2;
-
     private Button specialEvent;
     private ConstraintLayout scrollViewLayout;
     private Spinner chooseGame;
@@ -324,9 +323,6 @@ public class GameFragment extends Fragment
     {
         clock.setText(makeClockText());
     }
-
-
-
 
     public static String makeClockText()
     {

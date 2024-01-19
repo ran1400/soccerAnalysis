@@ -45,11 +45,8 @@ public class AddEventAlertDialog extends AppCompatDialogFragment
     private Event.Team teamChosen;
     private final int personalEvent = -1;
     private int getEventChosenHelper;
-    private boolean keyboardUp = false;
-
     int min,sec;
     private View view;
-
     private Button saveBtn,cancelBtn;
 
     @Override
@@ -220,7 +217,6 @@ public class AddEventAlertDialog extends AppCompatDialogFragment
     {
             specialEventText.setFocusableInTouchMode(true);
             specialEventText.requestFocus();
-            keyboardUp = true;
             InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(Activity.INPUT_METHOD_SERVICE);
             imm.toggleSoftInput(InputMethodManager.SHOW_IMPLICIT, 0);
     }
@@ -229,7 +225,6 @@ public class AddEventAlertDialog extends AppCompatDialogFragment
     {
         specialEventText.setEnabled(false);
         specialEventText.setEnabled(true);
-        keyboardUp = false;
     }
 
     private int addEvents()
@@ -243,8 +238,6 @@ public class AddEventAlertDialog extends AppCompatDialogFragment
             button.setText(AppData.events.get(i));
             eventsRadioGroup.addView(button);
         }
-        Log.d("radioGroupCheck2" ," - start in : " + (button.getId() - AppData.events.size() + 1));
-        Log.d("radioGroupCheck2" ," - end in : " + button.getId());
         return button.getId() - AppData.events.size() + 1;
     }
 
