@@ -49,7 +49,7 @@ public class GameFragment extends Fragment
     {
         view = inflater.inflate(R.layout.fragment_game, container, false);
         AppData.gameFragment = this;
-        chooseGame = view.findViewById(R.id.dropDownList);
+        chooseGame = view.findViewById(R.id.choseGameDropDownList);
         scrollViewLayout = view.findViewById(R.id.scrollViewLayout);
         createDropDownList();
         setScrollSize();

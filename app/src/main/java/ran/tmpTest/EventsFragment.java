@@ -1,6 +1,8 @@
 package ran.tmpTest;
 
-import android.annotation.SuppressLint;
+import android.graphics.Canvas;
+import android.graphics.Color;
+import android.graphics.Paint;
 import android.os.Bundle;
 
 import android.app.Fragment;
@@ -14,20 +16,30 @@ import android.widget.Button;
 import android.widget.Spinner;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.ItemTouchHelper;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
 import ran.tmpTest.sharedData.AppData;
 import ran.tmpTest.utils.Event;
 import ran.tmpTest.utils.ExelHandel;
+import ran.tmpTest.utils.lists.SwipeToDeleteList;
 
+import java.util.ArrayList;
 import java.util.List;
 
 
-public class EventsFragment extends Fragment implements AdapterView.OnItemSelectedListener
+public class EventsFragment extends Fragment
 {
     public static int gameChosen;
-    private TextView gameEvents;
     private List<Event> listToShow;
     private Button saveFileBtn;
     private Spinner chooseGameDropDownList;
+    private RecyclerView eventsList;
+    private SwipeToDeleteList swipeToDeleteList;
+
+    private View view;
 
     @Override
     public void onCreate(Bundle savedInstanceState)
@@ -39,19 +51,23 @@ public class EventsFragment extends Fragment implements AdapterView.OnItemSelect
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState)
     {
-        View view = inflater.inflate(R.layout.fragment_events, container, false);
-        AppData.eventsFragment = this;
+        view = inflater.inflate(R.layout.fragment_events, container, false);
         saveFileBtn = view.findViewById(R.id.saveFileBtn);
+        AppData.eventsFragment = this;
         if (AppData.gamesStringList.isEmpty())
         {
             AppData.mainActivity.showSnackBar("הוסף משחקים בהגדרות",700);
             saveFileBtn.setVisibility(View.INVISIBLE);
             return view;
         }
+        eventsList = view.findViewById(R.id.eventsList);
+        chooseGameDropDownList = view.findViewById(R.id.choseGameDropDownList);
         saveFileBtn.setOnClickListener(this::saveFileBtn);
-        gameEvents = view.findViewById(R.id.scrollViewText);
-        chooseGameDropDownList = (Spinner)view.findViewById(R.id.dropDownList);
-        createDropDownList();
+        swipeToDeleteList = new SwipeToDeleteList();
+        eventsList.setAdapter(swipeToDeleteList);
+        eventsList.setLayoutManager(new LinearLayoutManager(view.getContext()));
+        createEventsList();
+        createChoseGameDropDownList();
         return view;
     }
 
@@ -60,6 +76,62 @@ public class EventsFragment extends Fragment implements AdapterView.OnItemSelect
         super.onResume();
         if(gameChosen != -1)
             chooseGameDropDownList.setSelection(gameChosen);
+    }
+
+    private void createEventsList()
+    {
+        ItemTouchHelper.SimpleCallback simpleCallback = new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT)
+        {
+            private Paint paint = new Paint();
+            private TextView swipeToDeleteText;
+
+            @Override
+            public boolean onMove(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder, @NonNull RecyclerView.ViewHolder target)
+            {
+                return false;
+            }
+
+            @Override
+            public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction)
+            {
+                // Remove the swiped item from the list
+                int position = viewHolder.getAdapterPosition();
+                swipeToDeleteList.listData.remove(position);
+                listToShow.remove(position);
+                swipeToDeleteList.notifyItemRemoved(position);
+                if(listToShow.isEmpty())
+                    saveFileBtn.setVisibility(View.INVISIBLE);
+            }
+
+            @Override
+            public void onChildDraw(Canvas canvas,RecyclerView recyclerView,RecyclerView.ViewHolder viewHolder,
+                                    float dX, float dY, int actionState, boolean isCurrentlyActive)
+            {
+                super.onChildDraw(canvas, recyclerView, viewHolder, dX, dY, actionState, isCurrentlyActive);
+                if (actionState != ItemTouchHelper.ACTION_STATE_SWIPE)
+                    return;
+                View itemView = viewHolder.itemView;
+                paint.setColor(Color.RED);
+                canvas.drawRect(itemView.getRight() + dX, itemView.getTop(), itemView.getRight(), itemView.getBottom(), paint);
+                if (swipeToDeleteText == null)
+                {
+                    swipeToDeleteText = new TextView(view.getContext());
+                    swipeToDeleteText.setText("החלק למחיקה");
+                    swipeToDeleteText.setTextColor(Color.WHITE);
+                    swipeToDeleteText.setBackgroundColor(Color.RED);
+                    swipeToDeleteText.setPadding(16, 16, 16, 16);
+                    swipeToDeleteText.measure(View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED), View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED));
+                    swipeToDeleteText.layout(0, 0, swipeToDeleteText.getMeasuredWidth(), swipeToDeleteText.getMeasuredHeight());
+                }
+                float textX = itemView.getRight() - swipeToDeleteText.getWidth() - 16; // Adjust padding;
+                float textY = itemView.getTop() + ((itemView.getBottom() - itemView.getTop() - swipeToDeleteText.getHeight()) / 2);
+                canvas.save();
+                canvas.translate(textX, textY);
+                swipeToDeleteText.draw(canvas);
+            }
+        };
+        ItemTouchHelper itemTouchHelper = new ItemTouchHelper(simpleCallback);
+        itemTouchHelper.attachToRecyclerView(eventsList);
     }
 
     public void saveFileBtn(View view)
@@ -72,56 +144,50 @@ public class EventsFragment extends Fragment implements AdapterView.OnItemSelect
             AppData.mainActivity.showSnackBar("שמירת הקובץ נכשלה",1000);
     }
 
-    public void createDropDownList()
+    public void createChoseGameDropDownList()
     {
 
-        ArrayAdapter<String>adapter = new ArrayAdapter<String>(getActivity(),
-                android.R.layout.simple_spinner_item,AppData.gamesStringList);
+        ArrayAdapter<String>adapter = new ArrayAdapter(getActivity(),
+                                                       android.R.layout.simple_spinner_item,AppData.gamesStringList);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         chooseGameDropDownList.setAdapter(adapter);
-        chooseGameDropDownList.setOnItemSelectedListener(this);
+        chooseGameDropDownList.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener()
+        {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int position, long l)
+            {
+                gameChosen = position;
+                listToShow = AppData.games.get(position).events;
+                showGameEvents();
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView)
+            {
+                gameChosen = -1;
+                AppData.listToShow = null;
+                AppData.mainActivity.showSnackBar("הוסף משחקים בהגדרות",700);
+                saveFileBtn.setVisibility(View.INVISIBLE);
+                swipeToDeleteList.listData = null;
+                swipeToDeleteList.notifyDataSetChanged();
+            }
+        });
     }
 
-    private void showGameEvent()
+    private void showGameEvents()
     {
-        if(listToShow == null)
+        if(listToShow.isEmpty())
         {
-            AppData.mainActivity.showSnackBar("הוסף משחקים בהגדרות",700);
             saveFileBtn.setVisibility(View.INVISIBLE);
-            gameEvents.setText("");
-            return;
+            swipeToDeleteList.listData = null;
         }
-        if(listToShow.size() == 0)
+        else
         {
-            saveFileBtn.setVisibility(View.INVISIBLE);
-            gameEvents.setText("");
-            return;
+            swipeToDeleteList.listData = new ArrayList<>();
+            saveFileBtn.setVisibility(View.VISIBLE);
+            for (Event event : listToShow)
+                swipeToDeleteList.listData.add(event.toString());
         }
-        saveFileBtn.setVisibility(View.VISIBLE);
-        StringBuilder stringToShow = new StringBuilder();
-        for (Event event : listToShow)
-        {
-            stringToShow.append("\n");
-            stringToShow.append(event.toString());
-            stringToShow.append("\n");
-        }
-        stringToShow.append("\n\n");
-        gameEvents.setText(stringToShow);
-    }
-
-    @Override
-    public void onItemSelected(AdapterView<?> parent, View view, int position, long id)
-    {
-        gameChosen = position;
-        listToShow = AppData.games.get(position).events;
-        showGameEvent();
-    }
-
-    @Override
-    public void onNothingSelected(AdapterView<?> parent)
-    {
-        gameChosen = -1;
-        AppData.listToShow = null;
-        showGameEvent();
+        swipeToDeleteList.notifyDataSetChanged();
     }
 }

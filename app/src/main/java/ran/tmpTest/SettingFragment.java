@@ -8,6 +8,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -18,7 +19,7 @@ import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.RecyclerView;
 
 import ran.tmpTest.sharedData.AppData;
-import ran.tmpTest.utils.DragAndDropList;
+import ran.tmpTest.utils.lists.DragAndDropList;
 import ran.tmpTest.utils.Game;
 
 import java.util.Collections;
@@ -28,21 +29,22 @@ import java.util.List;
 public class SettingFragment extends Fragment
 {
     static View view;
-    RadioGroup selectList,whereToadd;
+    RadioGroup selectListRadioGroup, addToTopOrBottomRadioGroup;
     Button addBtn,deleteBtn,editBtn;
     RecyclerView eventsListView,gamesListView;
     DragAndDropList eventsList,gamesList,crntList;
+    TextView headerTextView;
 
-    TextView header, eventOrGameEditText;
+    EditText eventOrGameEditText;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,Bundle savedInstanceState)
     {
         view = inflater.inflate(R.layout.fragment_setting, container, false);
         AppData.settingFragment = this;
-        selectList = view.findViewById(R.id.selectList);
-        whereToadd = view.findViewById(R.id.whereToAdd);
-        header = view.findViewById(R.id.topHeader);
+        selectListRadioGroup = view.findViewById(R.id.selectList);
+        addToTopOrBottomRadioGroup = view.findViewById(R.id.whereToAdd);
+        headerTextView = view.findViewById(R.id.topHeader);
         eventOrGameEditText = view.findViewById(R.id.eventOrGameEditText);
         deleteBtn = view.findViewById(R.id.delete);
         deleteBtn.setOnClickListener((View) -> deleteBtn());
@@ -56,7 +58,7 @@ public class SettingFragment extends Fragment
         gamesList = createDragAndDropList(AppData.gamesStringList,gamesListView);
         AppData.listToShow = AppData.events;
         crntList = eventsList;
-        selectList.setOnCheckedChangeListener((radioGroup,checkedId) -> onListChange(checkedId));
+        selectListRadioGroup.setOnCheckedChangeListener((radioGroup, checkedId) -> onListChange(checkedId));
         return view;
     }
 
@@ -97,7 +99,7 @@ public class SettingFragment extends Fragment
                 eventsList.notifyItemChanged(itemChoosePosition);
                 gamesListView.setVisibility(View.VISIBLE);
                 eventsListView.setVisibility(View.INVISIBLE);
-                header.setText("רשימת משחקים :");
+                headerTextView.setText("רשימת משחקים :");
                 eventOrGameEditText.setHint("הכנס שם משחק");
                 addBtn.setText("הוסף משחק");
                 editBtn.setText("שנה שם משחק");
@@ -109,7 +111,7 @@ public class SettingFragment extends Fragment
                 gamesList.notifyItemChanged(itemChoosePosition);
                 gamesListView.setVisibility(View.INVISIBLE);
                 eventsListView.setVisibility(View.VISIBLE);
-                header.setText("רשימת אירועים :");
+                headerTextView.setText("רשימת אירועים :");
                 eventOrGameEditText.setHint("הכנס שם אירוע");
                 addBtn.setText("הוסף אירוע");
                 editBtn.setText("שנה אירוע");
@@ -123,7 +125,7 @@ public class SettingFragment extends Fragment
         deleteBtn.setVisibility(View.VISIBLE);
         editBtn.setVisibility(View.VISIBLE);
         addBtn.setVisibility(View.INVISIBLE);
-        whereToadd.setVisibility(View.INVISIBLE);
+        addToTopOrBottomRadioGroup.setVisibility(View.INVISIBLE);
     }
 
     public void changeToNoneChooseListItemMode()
@@ -132,7 +134,7 @@ public class SettingFragment extends Fragment
         deleteBtn.setVisibility(View.INVISIBLE);
         editBtn.setVisibility(View.INVISIBLE);
         addBtn.setVisibility(View.VISIBLE);
-        whereToadd.setVisibility(View.VISIBLE);
+        addToTopOrBottomRadioGroup.setVisibility(View.VISIBLE);
     }
     public DragAndDropList createDragAndDropList(List<String> list,RecyclerView recyclerView)
     {
@@ -241,7 +243,7 @@ public class SettingFragment extends Fragment
             Toast.makeText(getActivity(), eventOrGameEditText.getHint(), Toast.LENGTH_SHORT).show();
             return;
         }
-        if ( whereToadd.getCheckedRadioButtonId() == R.id.addToUp )
+        if ( addToTopOrBottomRadioGroup.getCheckedRadioButtonId() == R.id.addToUp )
         {
             if (AppData.listToShow == AppData.gamesStringList)
             {

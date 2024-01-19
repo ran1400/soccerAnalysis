@@ -34,7 +34,6 @@
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/dragAndDropListGames"
         android:layout_width="0dp"
-
         android:layout_height="0dp"
         android:visibility="invisible"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
@@ -102,13 +101,13 @@
             android:id="@+id/addToUp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:checked="true"
             android:text="לראש הרשימה" />
 
         <RadioButton
             android:id="@+id/addToDown"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:checked="true"
             android:text="לסוף הרשימה" />
     </RadioGroup>
 
@@ -116,7 +115,7 @@
         android:id="@+id/selectList"
         android:layout_width="0dp"
         android:layout_height="50dp"
-        android:background="@drawable/outline"
+        android:background="@drawable/radio_group_outline"
         android:orientation="horizontal"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
@@ -129,7 +128,7 @@
             android:layout_width="wrap_content"
             android:layout_height="50dp"
             android:layout_weight="1"
-            android:background="@drawable/switch_"
+            android:background="@drawable/no_chosen_radio_button"
             android:button="@null"
 
             android:gravity="center"
@@ -141,7 +140,7 @@
             android:layout_width="wrap_content"
             android:layout_height="50dp"
             android:layout_weight="1"
-            android:background="@drawable/switch_"
+            android:background="@drawable/no_chosen_radio_button"
             android:button="@null"
             android:checked="true"
             android:gravity="center"

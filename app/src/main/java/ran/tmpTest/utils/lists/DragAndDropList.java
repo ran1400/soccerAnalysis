@@ -1,4 +1,4 @@
-package ran.tmpTest.utils;
+package ran.tmpTest.utils.lists;
 import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -9,7 +9,6 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import ran.tmpTest.R;
-import ran.tmpTest.SettingFragment;
 import ran.tmpTest.sharedData.AppData;
 
 import java.util.List;
@@ -17,11 +16,11 @@ import java.util.List;
 public class DragAndDropList extends RecyclerView.Adapter<DragAndDropList.ViewHolder>
 {
 
-    List<String> list;
+    List<String> listData;
 
-    public DragAndDropList(List<String> list)
+    public DragAndDropList(List<String> listData)
     {
-        this.list = list;
+        this.listData = listData;
     }
 
     @NonNull
@@ -29,7 +28,7 @@ public class DragAndDropList extends RecyclerView.Adapter<DragAndDropList.ViewHo
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType)
     {
         LayoutInflater layoutInflater = LayoutInflater.from(parent.getContext());
-        View view = layoutInflater.inflate(R.layout.drag_and_drop_item, parent, false);
+        View view = layoutInflater.inflate(R.layout.drag_and_drop_list_item, parent, false);
         ViewHolder viewHolder = new ViewHolder(view);
         return viewHolder;
     }
@@ -37,7 +36,7 @@ public class DragAndDropList extends RecyclerView.Adapter<DragAndDropList.ViewHo
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position)
     {
-        holder.textView.setText(list.get(position));
+        holder.textView.setText(listData.get(position));
         if (AppData.listChoosePosition == position)
             holder.textView.setTextColor(Color.RED);
         else
@@ -47,7 +46,7 @@ public class DragAndDropList extends RecyclerView.Adapter<DragAndDropList.ViewHo
     @Override
     public int getItemCount()
     {
-        return list.size();
+        return listData.size();
     }
 
     class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener
