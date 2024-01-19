@@ -43,17 +43,4 @@ public class AppData
             gamesStringList.add(game.gameName);
     }
 
-    /*public void addExamples() // for checks
-    {
-        eventsList.add("איבוד כדור");
-        eventsList.add("גול");
-        eventsList.add("פנדל");
-        gamesList.addGame("מכבי חיפה - הפועל באר שבע");
-        gamesList.addGame("מכבי פתח תקווה - הפועל באר שבע");
-        gamesList.addGame("מכבי תל אביב - הפועל באר שבע");
-        gamesList.addEvent(0, makeEvent(35, 56, half1, team1, null, 3));
-        gamesList.addEvent(1, makeEvent(5, 16, half1, team2, 2, 1));
-        gamesList.addEvent(1, makeEvent(25, 16, half2, team2, 22, 1));
-    }*/
-
 }

@@ -46,6 +46,8 @@ public class AddEventAlertDialog extends AppCompatDialogFragment
     private final int personalEvent = -1;
     private int getEventChosenHelper;
     private boolean keyboardUp = false;
+
+    int min,sec;
     private View view;
 
     private Button saveBtn,cancelBtn;
@@ -67,6 +69,8 @@ public class AddEventAlertDialog extends AppCompatDialogFragment
         eventsRadioGroup = view.findViewById(R.id.eventsRadioGroup);
         scrollViewLayout = view.findViewById(R.id.scrollViewLayout);
         RadioGroup choseTeamRadioGroup = view.findViewById(R.id.selectTeam);
+        min = AppData.min;
+        sec = AppData.sec;
         cancelBtn.setOnClickListener(this::cancelBtn);
         saveBtn.setOnClickListener(this::saveBtn);
         setPlayerNumPickers0To9();
@@ -131,8 +135,6 @@ public class AddEventAlertDialog extends AppCompatDialogFragment
     {
         int playerNum = getPlayerNumber();
         Event.GamePart gamePart = AppData.gamePartChosen;
-        int min = AppData.min;
-        int sec = AppData.sec;
         Event.Team team = teamChosen;
         String eventName;
         if ( eventChosen == personalEvent )
@@ -249,12 +251,10 @@ public class AddEventAlertDialog extends AppCompatDialogFragment
     public void setScrollSize()
     {
         int height = getResources().getConfiguration().screenHeightDp;
-        Log.d("size323",String.valueOf(dpToPx(height)));
         ViewGroup.LayoutParams params = scrollViewLayout.getLayoutParams();
         //Changes the height and width to the specified *pixels*
 
         params.height = dpToPx((int) (height * 0.5)); //the size of the scrollBar
-        Log.d("size323",String.valueOf(params.height));
         scrollViewLayout.setLayoutParams(params);
     }
 
