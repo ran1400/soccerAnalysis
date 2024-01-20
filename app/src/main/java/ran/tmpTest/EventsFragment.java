@@ -165,7 +165,7 @@ public class EventsFragment extends Fragment
             public void onNothingSelected(AdapterView<?> adapterView)
             {
                 gameChosen = -1;
-                AppData.listToShow = null;
+                listToShow = null;
                 AppData.mainActivity.showSnackBar("הוסף משחקים בהגדרות",700);
                 saveFileBtn.setVisibility(View.INVISIBLE);
                 swipeToDeleteList.listData = null;

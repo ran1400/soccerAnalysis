@@ -25,7 +25,7 @@ public class AppData
     public static List<Game> games;
     public static List<String> events;
     public static List<String> gamesStringList;
-    public static  List<String> listToShow; //games or events in setting fragment
+    //public static  List<String> listToShow; //games or events in setting fragment
     public static Event.GamePart gamePartChosen ;
     public static Event.Team teamChosen;
     public static int playerChosenDigit1;

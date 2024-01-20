@@ -29,13 +29,13 @@ import java.util.List;
 public class SettingFragment extends Fragment
 {
     static View view;
-    RadioGroup selectListRadioGroup, addToTopOrBottomRadioGroup;
-    Button addBtn,deleteBtn,editBtn;
-    RecyclerView eventsListView,gamesListView;
-    DragAndDropList eventsList,gamesList,crntList;
-    TextView headerTextView;
-
-    EditText eventOrGameEditText;
+    private RadioGroup selectListRadioGroup, addToTopOrBottomRadioGroup;
+    private Button addBtn,deleteBtn,editBtn;
+    private RecyclerView eventsListView,gamesListView;
+    private DragAndDropList eventsDragAndDropList, gamesDragAndDropList;//,crntList;
+    private TextView headerTextView;
+    private EditText eventOrGameEditText;
+    private List<String> listToShow;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,Bundle savedInstanceState)
@@ -47,17 +47,17 @@ public class SettingFragment extends Fragment
         headerTextView = view.findViewById(R.id.topHeader);
         eventOrGameEditText = view.findViewById(R.id.eventOrGameEditText);
         deleteBtn = view.findViewById(R.id.delete);
-        deleteBtn.setOnClickListener((View) -> deleteBtn());
-        editBtn = view.findViewById(R.id.edit);
-        editBtn.setOnClickListener((View) -> editBtn());
         addBtn = view.findViewById(R.id.add);
-        addBtn.setOnClickListener((View) -> addBtn());
+        editBtn = view.findViewById(R.id.edit);
         eventsListView = view.findViewById(R.id.dragAndDropListEvents);
         gamesListView = view.findViewById(R.id.dragAndDropListGames);
-        eventsList = createDragAndDropList(AppData.events,eventsListView);
-        gamesList = createDragAndDropList(AppData.gamesStringList,gamesListView);
-        AppData.listToShow = AppData.events;
-        crntList = eventsList;
+        deleteBtn.setOnClickListener((View) -> deleteBtn());
+        editBtn.setOnClickListener((View) -> editBtn());
+        addBtn.setOnClickListener((View) -> addBtn());
+        eventsDragAndDropList = createDragAndDropList(AppData.events,eventsListView);
+        gamesDragAndDropList = createDragAndDropList(AppData.gamesStringList,gamesListView);
+        listToShow = AppData.events;
+        //crntList = eventsList;
         selectListRadioGroup.setOnCheckedChangeListener((radioGroup, checkedId) -> onListChange(checkedId));
         return view;
     }
@@ -75,7 +75,10 @@ public class SettingFragment extends Fragment
         if(AppData.listChoosePosition != -1)
         {
             AppData.listChoosePosition = -1;
-            crntList.notifyItemChanged(AppData.listChoosePosition);
+            if (listToShow == AppData.events)
+                eventsDragAndDropList.notifyItemChanged(AppData.listChoosePosition);
+            else //listToShow == AppData.gamesStringList
+                gamesDragAndDropList.notifyItemChanged(AppData.listChoosePosition);
         }
     }
 
@@ -88,15 +91,11 @@ public class SettingFragment extends Fragment
     private void onListChange(int checkedId)
     {
         eventOrGameEditText.setText("");
-        int itemChoosePosition = AppData.listChoosePosition;
-        AppData.listChoosePosition = -1;
-        changeToNoneChooseListItemMode();
         switch(checkedId)
         {
             case R.id.gamesList:
-                AppData.listToShow = AppData.gamesStringList;
-                crntList = gamesList;
-                eventsList.notifyItemChanged(itemChoosePosition);
+                listToShow = AppData.gamesStringList;
+                eventsDragAndDropList.notifyItemChanged(AppData.listChoosePosition);
                 gamesListView.setVisibility(View.VISIBLE);
                 eventsListView.setVisibility(View.INVISIBLE);
                 headerTextView.setText("רשימת משחקים :");
@@ -106,9 +105,8 @@ public class SettingFragment extends Fragment
                 deleteBtn.setText("מחק משחק");
                 break;
             case R.id.evetnsList :
-                AppData.listToShow = AppData.events;
-                crntList = eventsList;
-                gamesList.notifyItemChanged(itemChoosePosition);
+                listToShow = AppData.events;
+                gamesDragAndDropList.notifyItemChanged(AppData.listChoosePosition);
                 gamesListView.setVisibility(View.INVISIBLE);
                 eventsListView.setVisibility(View.VISIBLE);
                 headerTextView.setText("רשימת אירועים :");
@@ -118,9 +116,10 @@ public class SettingFragment extends Fragment
                 deleteBtn.setText("מחק אירוע");
                 break;
         }
+        changeToNoneChoseItemMode();
     }
 
-    public void changeToChooseListItemMode()
+    public void changeToUserChoseItemMode()
     {
         deleteBtn.setVisibility(View.VISIBLE);
         editBtn.setVisibility(View.VISIBLE);
@@ -128,7 +127,7 @@ public class SettingFragment extends Fragment
         addToTopOrBottomRadioGroup.setVisibility(View.INVISIBLE);
     }
 
-    public void changeToNoneChooseListItemMode()
+    public void changeToNoneChoseItemMode()
     {
         AppData.listChoosePosition = -1;
         deleteBtn.setVisibility(View.INVISIBLE);
@@ -149,8 +148,8 @@ public class SettingFragment extends Fragment
             {
                 int fromPosition = viewHolder.getAdapterPosition();
                 int toPosition = target.getAdapterPosition();
-                Collections.swap(AppData.listToShow, fromPosition, toPosition);
-                if (AppData.listToShow == AppData.gamesStringList )
+                Collections.swap(listToShow, fromPosition, toPosition);
+                if (listToShow == AppData.gamesStringList )
                 {
                     Collections.swap(AppData.games, fromPosition, toPosition);
                     changeSelectedGamePosition(fromPosition,toPosition);
@@ -207,18 +206,21 @@ public class SettingFragment extends Fragment
             Toast.makeText(getActivity(), eventOrGameEditText.getHint(), Toast.LENGTH_SHORT).show();
             return;
         }
-        AppData.listToShow.set(AppData.listChoosePosition, changeToName);
-        if (AppData.listToShow == AppData.gamesStringList)
-            AppData.games.get(AppData.listChoosePosition).gameName = changeToName;
+        listToShow.set(AppData.listChoosePosition, changeToName);
         eventOrGameEditText.setText("");
-        int prevListChoosePosition = AppData.listChoosePosition;
-        changeToNoneChooseListItemMode();
-        crntList.notifyItemChanged(prevListChoosePosition);
+        if (listToShow == AppData.events)
+            eventsDragAndDropList.notifyItemChanged(AppData.listChoosePosition);
+        else //listToShow == AppData.gamesStringList
+        {
+            AppData.games.get(AppData.listChoosePosition).gameName = changeToName;
+            gamesDragAndDropList.notifyItemChanged(AppData.listChoosePosition);
+        }
+        changeToNoneChoseItemMode(); // this fun change AppData.listChoosePosition to -1
     }
 
     private void deleteBtn()
     {
-        if (AppData.listToShow == AppData.gamesStringList)
+        if (listToShow == AppData.gamesStringList)
         {
             AppData.games.remove(AppData.listChoosePosition);
             if(GameFragment.gameChosen == AppData.listChoosePosition)
@@ -229,11 +231,16 @@ public class SettingFragment extends Fragment
                 EventsFragment.gameChosen = -1;
             else if (EventsFragment.gameChosen > AppData.listChoosePosition)
                 EventsFragment.gameChosen--;
+            AppData.gamesStringList.remove(AppData.listChoosePosition);
+            gamesDragAndDropList.notifyItemRemoved(AppData.listChoosePosition);
         }
-        AppData.listToShow.remove(AppData.listChoosePosition);
+        else //listToShow == AppData.events
+        {
+            AppData.events.remove(AppData.listChoosePosition);
+            eventsDragAndDropList.notifyItemRemoved(AppData.listChoosePosition);
+        }
         eventOrGameEditText.setText("");
-        crntList.notifyItemRemoved(AppData.listChoosePosition);
-        changeToNoneChooseListItemMode();
+        changeToNoneChoseItemMode();
     }
     private void addBtn()
     {
@@ -243,9 +250,14 @@ public class SettingFragment extends Fragment
             Toast.makeText(getActivity(), eventOrGameEditText.getHint(), Toast.LENGTH_SHORT).show();
             return;
         }
+        DragAndDropList crntList ;
+        if (listToShow == AppData.events)
+            crntList = eventsDragAndDropList;
+        else //listToShow == AppData.gamesStringList
+            crntList = gamesDragAndDropList;
         if ( addToTopOrBottomRadioGroup.getCheckedRadioButtonId() == R.id.addToUp )
         {
-            if (AppData.listToShow == AppData.gamesStringList)
+            if (listToShow == AppData.gamesStringList)
             {
                 AppData.games.add(0, new Game(newName));
                 if(GameFragment.gameChosen != -1)
@@ -253,15 +265,15 @@ public class SettingFragment extends Fragment
                 if(EventsFragment.gameChosen != -1)
                     EventsFragment.gameChosen++;
             }
-            AppData.listToShow.add(0, newName);
+            listToShow.add(0, newName);
             crntList.notifyItemInserted(0);
         }
-        else // whereToadd.getCheckedRadioButtonId() == R.id.addToDown
+        else // whereToAdd.getCheckedRadioButtonId() == R.id.addToDown
         {
-            if (AppData.listToShow == AppData.gamesStringList)
+            if (listToShow == AppData.gamesStringList)
                 AppData.games.add(new Game(newName));
-            AppData.listToShow.add(newName);
-            crntList.notifyItemInserted(AppData.listToShow.size() -1);
+            listToShow.add(newName);
+            crntList.notifyItemInserted(listToShow.size() -1);
         }
         eventOrGameEditText.setText("");
     }

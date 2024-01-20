@@ -241,7 +241,7 @@ public class MainActivity extends AppCompatActivity
 
     public void settingBtn(View view)
     {
-        AppData.listToShow = AppData.events;
+        //AppData.listToShow = AppData.events;
         if (AppData.settingFragment == null)
             AppData.settingFragment = new SettingFragment();
         loadFragment(AppData.settingFragment);

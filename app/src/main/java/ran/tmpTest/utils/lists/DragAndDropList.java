@@ -43,13 +43,18 @@ public class DragAndDropList extends RecyclerView.Adapter<DragAndDropList.ViewHo
             holder.textView.setTextColor(Color.BLACK);
     }
 
+    private void notifyItemChanged()
+    {
+        super.notifyItemChanged(AppData.listChoosePosition);
+    }
+
     @Override
     public int getItemCount()
     {
         return listData.size();
     }
 
-    class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener
+    protected class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener
     {
 
         TextView textView;
@@ -68,11 +73,11 @@ public class DragAndDropList extends RecyclerView.Adapter<DragAndDropList.ViewHo
             {
                 AppData.listChoosePosition = getAdapterPosition();
                 notifyItemChanged(AppData.listChoosePosition);
-                AppData.settingFragment.changeToChooseListItemMode();
+                AppData.settingFragment.changeToUserChoseItemMode();
             }
             else if (AppData.listChoosePosition == getAdapterPosition())
             {
-                AppData.settingFragment.changeToNoneChooseListItemMode();
+                AppData.settingFragment.changeToNoneChoseItemMode();
                 notifyItemChanged(getAdapterPosition());
             }
             else

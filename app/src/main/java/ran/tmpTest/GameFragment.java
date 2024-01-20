@@ -34,13 +34,13 @@ public class GameFragment extends Fragment
 {
     public static int gameChosen;
     private View view;
-    private TextView clock,msgToUser;
+    private TextView clockTextView, msgToUserTextView;
     private ImageButton playBtn,stopBtn;
-    private RadioGroup gamePart,team;
-    private NumberPicker playerDigit1,playerDigit2;
-    private Button specialEvent;
-    private ConstraintLayout scrollViewLayout;
-    private Spinner chooseGame;
+    private RadioGroup choseGamePartRadioGroup, choseTeamRadioGroup;
+    private NumberPicker playerDigit1NumberPicker, playerDigit2NumberPicker;
+    private Button specialEventBtn;
+    private ConstraintLayout eventsScrollView;
+    private Spinner choseGameDropDownList;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -48,33 +48,33 @@ public class GameFragment extends Fragment
     {
         view = inflater.inflate(R.layout.fragment_game, container, false);
         AppData.gameFragment = this;
-        chooseGame = view.findViewById(R.id.choseGameDropDownList);
-        scrollViewLayout = view.findViewById(R.id.scrollViewLayout);
-        createDropDownList();
-        setScrollSize();
-        msgToUser = view.findViewById(R.id.msgToUser);
-        msgToUser.setVisibility(View.INVISIBLE);
-        playerDigit1 = view.findViewById(R.id.playerDigit1);
-        playerDigit2 = view.findViewById(R.id.playerDigit2);
-        setPlayerNumPickers();
-        clock = view.findViewById(R.id.clock);
+        choseGameDropDownList = view.findViewById(R.id.choseGameDropDownList);
+        eventsScrollView = view.findViewById(R.id.scrollViewLayout);
+        msgToUserTextView = view.findViewById(R.id.msgToUser);
+        msgToUserTextView.setVisibility(View.INVISIBLE);
+        playerDigit1NumberPicker = view.findViewById(R.id.playerDigit1);
+        playerDigit2NumberPicker = view.findViewById(R.id.playerDigit2);
+        clockTextView = view.findViewById(R.id.clock);
         playBtn = view.findViewById(R.id.playBtn);
-        playBtn.setOnClickListener((View)->playBtn());
         stopBtn = view.findViewById(R.id.stopBtn);
+        choseGamePartRadioGroup = view.findViewById(R.id.gamePart);
+        choseTeamRadioGroup = view.findViewById(R.id.selectTeam);
+        specialEventBtn = view.findViewById(R.id.specialEvent);
+        playBtn.setOnClickListener((View)->playBtn());
         stopBtn.setOnClickListener((View)-> stopBtn());
-        gamePart = view.findViewById(R.id.gamePart);
-        team = view.findViewById(R.id.selectTeam);
-        specialEvent = view.findViewById(R.id.specialEvent);
-        specialEvent.setOnClickListener((View)-> specialEventBtn());
+        specialEventBtn.setOnClickListener((View)-> specialEventBtn());
+        choseGamePartRadioGroup.setOnCheckedChangeListener((group, checkedId) -> setGamePartValue(checkedId));
+        choseTeamRadioGroup.setOnCheckedChangeListener((group, checkedId) -> SetTeamValue(checkedId));
+        setPlayerNumPickers();
+        createGamesDropDownList();
+        setLayoutSize(eventsScrollView,35);
         createEventButtons(view,AppData.events);
-        gamePart.setOnCheckedChangeListener((group, checkedId) -> setGamePartValue(checkedId));
-        team.setOnCheckedChangeListener((group, checkedId) -> SetTeamValue(checkedId));
-        playerDigit1.setValue(AppData.playerChosenDigit1);
-        playerDigit2.setValue(AppData.playerChosenDigit2);
+        playerDigit1NumberPicker.setValue(AppData.playerChosenDigit1);
+        playerDigit2NumberPicker.setValue(AppData.playerChosenDigit2);
         setGamePart();
         setTeamChosen();
         if (AppData.games.isEmpty() == false && AppData.events.isEmpty() == false)
-            msgToUser.setVisibility(View.INVISIBLE);
+            msgToUserTextView.setVisibility(View.INVISIBLE);
         return view;
     }
 
@@ -82,8 +82,8 @@ public class GameFragment extends Fragment
     public void onPause()
     {
         super.onPause();
-        AppData.playerChosenDigit1 = playerDigit1.getValue();
-        AppData.playerChosenDigit2 = playerDigit2.getValue();
+        AppData.playerChosenDigit1 = playerDigit1NumberPicker.getValue();
+        AppData.playerChosenDigit2 = playerDigit2NumberPicker.getValue();
     }
 
     public void onResume()
@@ -91,7 +91,7 @@ public class GameFragment extends Fragment
         super.onResume();
         if(GameFragment.gameChosen != -1)
         {
-            chooseGame.setSelection(GameFragment.gameChosen);
+            choseGameDropDownList.setSelection(GameFragment.gameChosen);
         }
         if (AppData.clockRun)
         {
@@ -99,7 +99,7 @@ public class GameFragment extends Fragment
             updateClockText();
         }
         else
-            clock.setText("00:00");
+            clockTextView.setText("00:00");
     }
 
     private AdapterView.OnItemSelectedListener onSelectGameDropDownList()
@@ -126,8 +126,8 @@ public class GameFragment extends Fragment
             Toast.makeText(getActivity(), "הוסף משחק בהגדרות", Toast.LENGTH_LONG).show();
             return;
         }
-        AppData.playerChosenDigit1 = playerDigit1.getValue();
-        AppData.playerChosenDigit2 = playerDigit2.getValue();
+        AppData.playerChosenDigit1 = playerDigit1NumberPicker.getValue();
+        AppData.playerChosenDigit2 = playerDigit2NumberPicker.getValue();
         AddEventAlertDialog addEventAlertDialog = new AddEventAlertDialog();
         addEventAlertDialog.show(AppData.mainActivity.getSupportFragmentManager(),"");
     }
@@ -135,8 +135,8 @@ public class GameFragment extends Fragment
 
     public void showMsgToUser(String text)
     {
-        msgToUser.setText(text);
-        msgToUser.setVisibility(View.VISIBLE);
+        msgToUserTextView.setText(text);
+        msgToUserTextView.setVisibility(View.VISIBLE);
     }
 
     public void SetTeamValue(int checkedId)
@@ -159,16 +159,16 @@ public class GameFragment extends Fragment
         switch(AppData.gamePartChosen)
         {
             case HALF_1:
-                gamePart.check(R.id.h1);
+                choseGamePartRadioGroup.check(R.id.h1);
                 break;
             case HALF_2:
-                gamePart.check(R.id.h2);
+                choseGamePartRadioGroup.check(R.id.h2);
                 break;
             case EXTRA_TIME_1:
-                 gamePart.check(R.id.et1);
+                 choseGamePartRadioGroup.check(R.id.et1);
                  break;
             case EXTRA_TIME_2:
-                 gamePart.check(R.id.et2);
+                 choseGamePartRadioGroup.check(R.id.et2);
         }
     }
 
@@ -177,13 +177,13 @@ public class GameFragment extends Fragment
         switch (AppData.teamChosen)
         {
             case NON :
-                team.check(R.id.noTeam);
+                choseTeamRadioGroup.check(R.id.noTeam);
                 break;
             case HOME_TEAM:
-                team.check(R.id.home);
+                choseTeamRadioGroup.check(R.id.home);
                 break;
             case AWAY_TEAM:
-                team.check(R.id.away);
+                choseTeamRadioGroup.check(R.id.away);
         }
     }
 
@@ -208,24 +208,24 @@ public class GameFragment extends Fragment
 
     public int getPlayerNumber()
     {
-        return playerDigit1.getValue() * 10 + playerDigit2.getValue();
+        return playerDigit1NumberPicker.getValue() * 10 + playerDigit2NumberPicker.getValue();
     }
 
     public void setPlayerNumPickers()
     {
-        playerDigit1.setMinValue(0);
-        playerDigit2.setMinValue(0);
-        playerDigit1.setMaxValue(9);
-        playerDigit2.setMaxValue(9);
+        playerDigit1NumberPicker.setMinValue(0);
+        playerDigit2NumberPicker.setMinValue(0);
+        playerDigit1NumberPicker.setMaxValue(9);
+        playerDigit2NumberPicker.setMaxValue(9);
     }
 
-    public void createDropDownList()
+    public void createGamesDropDownList()
     {
         ArrayAdapter<String>adapter = new ArrayAdapter<String>(getActivity(),
                 android.R.layout.simple_spinner_item,AppData.gamesStringList);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        chooseGame.setAdapter(adapter);
-        chooseGame.setOnItemSelectedListener(onSelectGameDropDownList());
+        choseGameDropDownList.setAdapter(adapter);
+        choseGameDropDownList.setOnItemSelectedListener(onSelectGameDropDownList());
     }
 
 
@@ -235,13 +235,12 @@ public class GameFragment extends Fragment
         return Math.round((float) dp * density);
     }
 
-    public void setScrollSize()
+    public static void setLayoutSize(ConstraintLayout layout,int percentOfTheScreen)
     {
-        int height = getResources().getConfiguration().screenHeightDp;
-        ViewGroup.LayoutParams params = scrollViewLayout.getLayoutParams();
-        //Changes the height and width to the specified *pixels*
-        params.height = dpToPx((int) (height * 0.35),getActivity()); //the size of the scrollBar
-        scrollViewLayout.setLayoutParams(params);
+        final int screenHeight = AppData.mainActivity.getResources().getConfiguration().screenHeightDp;
+        ViewGroup.LayoutParams params = layout.getLayoutParams();
+        params.height = dpToPx((int) (screenHeight * percentOfTheScreen * 0.01),AppData.mainActivity);
+        layout.setLayoutParams(params);
     }
 
     public void createEventButtons(View view , List<String> list)
@@ -259,15 +258,15 @@ public class GameFragment extends Fragment
 
         LinearLayout linearLayout = (LinearLayout) view.findViewById(R.id.buttonList);
         linearLayout.removeAllViewsInLayout();
-        final Button[] button = new Button[list.size()];
-        for (int i = 0; i < button.length ; i++)
+        final Button[] buttons = new Button[list.size()];
+        for (int i = 0; i < buttons.length ; i++)
         {
             int buttonStyle = R.style.buttonStyle;
-            button[i]  = new Button(new ContextThemeWrapper(getActivity(), buttonStyle), null, buttonStyle);
-            button[i].setHeight(170);
-            button[i].setOnClickListener(new eventListener(i));
-            button[i].setText(list.get(i));
-            linearLayout.addView(button[i]);
+            buttons[i]  = new Button(new ContextThemeWrapper(getActivity(), buttonStyle), null, buttonStyle);
+            buttons[i].setHeight(170);
+            buttons[i].setOnClickListener(new eventListener(i));
+            buttons[i].setText(list.get(i));
+            linearLayout.addView(buttons[i]);
         }
     }
 
@@ -315,13 +314,13 @@ public class GameFragment extends Fragment
     public void resetClock()
     {
         playBtn.setVisibility(View.VISIBLE);
-        clock.setText("00:00");
+        clockTextView.setText("00:00");
     }
 
 
     public void updateClockText()
     {
-        clock.setText(makeClockText());
+        clockTextView.setText(makeClockText());
     }
 
     public static String makeClockText()
