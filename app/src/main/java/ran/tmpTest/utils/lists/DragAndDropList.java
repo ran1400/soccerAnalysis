@@ -43,11 +43,6 @@ public class DragAndDropList extends RecyclerView.Adapter<DragAndDropList.ViewHo
             holder.textView.setTextColor(Color.BLACK);
     }
 
-    private void notifyItemChanged()
-    {
-        super.notifyItemChanged(AppData.listChoosePosition);
-    }
-
     @Override
     public int getItemCount()
     {
