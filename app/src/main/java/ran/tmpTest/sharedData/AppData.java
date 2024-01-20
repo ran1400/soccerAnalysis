@@ -25,17 +25,13 @@ public class AppData
     public static List<Game> games;
     public static List<String> events;
     public static List<String> gamesStringList;
-    //public static  List<String> listToShow; //games or events in setting fragment
-    public static Event.GamePart gamePartChosen ;
+    public static Event.GamePart gamePartChosen;
     public static Event.Team teamChosen;
     public static int playerChosenDigit1;
     public static int playerChosenDigit2;
     public static int min,sec;
     public static boolean clockRun;
-
-    public static int listChoosePosition = -1; // for drag and dop list
-
-
+    public static int listChoosePosition = -1; // for drag and dop list - setting fragment
     public static void makeGamesStringList()
     {
         gamesStringList = new ArrayList<>();
