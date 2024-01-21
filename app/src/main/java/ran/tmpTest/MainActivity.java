@@ -9,7 +9,7 @@ import android.os.Handler;
 import android.util.Log;
 import android.view.View;
 
-import android.app.Fragment;
+import androidx.fragment.app.Fragment;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 
@@ -220,9 +220,11 @@ public class MainActivity extends AppCompatActivity
 
     private void loadFragment(Fragment fragment)
     {
-        FragmentTransaction fragmentTransaction = fm.beginTransaction();
-        fragmentTransaction.replace(R.id.fragment, fragment);
-        fragmentTransaction.commit(); // save the changes
+        getSupportFragmentManager().beginTransaction().replace(R.id.fragmentContainer,fragment).commit();
+
+        //FragmentTransaction fragmentTransaction = fm.beginTransaction();
+        //fragmentTransaction.replace(R.id.fragment, fragment);
+        //fragmentTransaction.commit(); // save the changes
     }
 
     public void gameBtn(View view)
@@ -241,7 +243,6 @@ public class MainActivity extends AppCompatActivity
 
     public void settingBtn(View view)
     {
-        //AppData.listToShow = AppData.events;
         if (AppData.settingFragment == null)
             AppData.settingFragment = new SettingFragment();
         loadFragment(AppData.settingFragment);

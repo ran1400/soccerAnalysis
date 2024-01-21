@@ -3,7 +3,7 @@ package ran.tmpTest;
 import android.content.Context;
 import android.os.Bundle;
 
-import android.app.Fragment;
+import androidx.fragment.app.Fragment;
 
 import android.view.ContextThemeWrapper;
 import android.view.LayoutInflater;
@@ -221,7 +221,7 @@ public class GameFragment extends Fragment
 
     public void createGamesDropDownList()
     {
-        ArrayAdapter<String>adapter = new ArrayAdapter<String>(getActivity(),
+        ArrayAdapter<String>adapter = new ArrayAdapter<>(getActivity(),
                 android.R.layout.simple_spinner_item,AppData.gamesStringList);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         choseGameDropDownList.setAdapter(adapter);
@@ -256,7 +256,7 @@ public class GameFragment extends Fragment
             return;
         }
 
-        LinearLayout linearLayout = (LinearLayout) view.findViewById(R.id.buttonList);
+        LinearLayout linearLayout = view.findViewById(R.id.buttonList);
         linearLayout.removeAllViewsInLayout();
         final Button[] buttons = new Button[list.size()];
         for (int i = 0; i < buttons.length ; i++)

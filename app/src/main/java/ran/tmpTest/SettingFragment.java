@@ -2,7 +2,7 @@ package ran.tmpTest;
 
 import android.os.Bundle;
 
-import android.app.Fragment;
+import androidx.fragment.app.Fragment;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -28,7 +28,7 @@ import java.util.List;
 
 public class SettingFragment extends Fragment
 {
-    static View view;
+    private View view;
     private RadioGroup selectListRadioGroup, addToTopOrBottomRadioGroup;
     private Button addBtn,deleteBtn,editBtn;
     private RecyclerView eventsListView,gamesListView;
@@ -57,7 +57,6 @@ public class SettingFragment extends Fragment
         eventsDragAndDropList = createDragAndDropList(AppData.events,eventsListView);
         gamesDragAndDropList = createDragAndDropList(AppData.gamesStringList,gamesListView);
         listToShow = AppData.events;
-        //crntList = eventsList;
         selectListRadioGroup.setOnCheckedChangeListener((radioGroup, checkedId) -> onListChange(checkedId));
         return view;
     }

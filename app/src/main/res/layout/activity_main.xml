@@ -10,7 +10,7 @@
 
 
     <FrameLayout
-        android:id="@+id/fragment"
+        android:id="@+id/fragmentContainer"
         android:layout_width="0dp"
         android:layout_height="0dp"
         app:layout_constraintBottom_toTopOf="@id/space"
@@ -25,7 +25,6 @@
         style="android.R.style.Widget_Holo_Light"
         android:layout_width="match_parent"
         android:layout_height="4dp"
-
         android:background="?android:attr/listDivider"
         app:layout_constraintBottom_toTopOf="@+id/gameButton" />
 
