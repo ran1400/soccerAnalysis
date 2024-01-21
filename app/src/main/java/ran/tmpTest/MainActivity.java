@@ -221,10 +221,6 @@ public class MainActivity extends AppCompatActivity
     private void loadFragment(Fragment fragment)
     {
         getSupportFragmentManager().beginTransaction().replace(R.id.fragmentContainer,fragment).commit();
-
-        //FragmentTransaction fragmentTransaction = fm.beginTransaction();
-        //fragmentTransaction.replace(R.id.fragment, fragment);
-        //fragmentTransaction.commit(); // save the changes
     }
 
     public void gameBtn(View view)
