@@ -57,7 +57,7 @@ public class MainActivity extends AppCompatActivity
         clockHandler = new Handler();
         clockThread = new ClockThread();
         AppData.gameFragment = new GameFragment();
-        loadFragment(AppData.gameFragment);
+        getSupportFragmentManager().beginTransaction().replace(R.id.fragmentContainer,AppData.gameFragment).commit();
     }
 
 
@@ -218,30 +218,26 @@ public class MainActivity extends AppCompatActivity
         }).setDuration(700).show();
     }
 
-    private void loadFragment(Fragment fragment)
-    {
-        getSupportFragmentManager().beginTransaction().replace(R.id.fragmentContainer,fragment).commit();
-    }
 
     public void gameBtn(View view)
     {
         if (AppData.gameFragment == null)
             AppData.gameFragment = new GameFragment();
-        loadFragment(AppData.gameFragment);
+        getSupportFragmentManager().beginTransaction().replace(R.id.fragmentContainer,AppData.gameFragment).commit();
     }
 
     public void eventsBtn(View view)
     {
         if (AppData.eventsFragment == null)
             AppData.eventsFragment = new EventsFragment();
-        loadFragment(AppData.eventsFragment);
+        getSupportFragmentManager().beginTransaction().replace(R.id.fragmentContainer,AppData.eventsFragment).commit();
     }
 
     public void settingBtn(View view)
     {
         if (AppData.settingFragment == null)
             AppData.settingFragment = new SettingFragment();
-        loadFragment(AppData.settingFragment);
+        getSupportFragmentManager().beginTransaction().replace(R.id.fragmentContainer,AppData.settingFragment).commit();
     }
 
     public <T> void saveDataToMemory(String key,T data)

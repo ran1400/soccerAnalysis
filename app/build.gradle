@@ -9,10 +9,8 @@ android {
     defaultConfig {
         applicationId "ran.tmpTest"
         minSdk 21
-        targetSdk 31
-        versionCode 6
-        versionName "6"
-
+        targetSdk 33
+        versionCode
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
 
