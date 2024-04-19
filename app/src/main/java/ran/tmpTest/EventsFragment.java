@@ -15,11 +15,14 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.google.android.material.snackbar.Snackbar;
 
 import ran.tmpTest.sharedData.AppData;
 import ran.tmpTest.utils.Event;
@@ -39,6 +42,8 @@ public class EventsFragment extends Fragment
     private RecyclerView eventsList;
     private SwipeToDeleteList swipeToDeleteList;
 
+    private TextView msgToUser;
+
     private View view;
 
     @Override
@@ -56,10 +61,11 @@ public class EventsFragment extends Fragment
         AppData.eventsFragment = this;
         if (AppData.gamesStringList.isEmpty())
         {
-            AppData.mainActivity.showSnackBar("הוסף משחקים בהגדרות",700);
+            AppData.mainActivity.showSnackBar("הוסף משחק בהגדרות",500);
             saveFileBtn.setVisibility(View.INVISIBLE);
             return view;
         }
+        msgToUser = view.findViewById(R.id.msgToUser);
         eventsList = view.findViewById(R.id.eventsList);
         chooseGameDropDownList = view.findViewById(R.id.choseGameDropDownList);
         saveFileBtn.setOnClickListener(this::saveFileBtn);
@@ -76,6 +82,12 @@ public class EventsFragment extends Fragment
         super.onResume();
         if(gameChosen != -1)
             chooseGameDropDownList.setSelection(gameChosen);
+    }
+
+    private void showMsgToUser(String msg)
+    {
+        msgToUser.setText(msg);
+        msgToUser.setVisibility(View.VISIBLE);
     }
 
     private void createEventsList()
@@ -160,13 +172,12 @@ public class EventsFragment extends Fragment
                 listToShow = AppData.games.get(position).events;
                 showGameEvents();
             }
-
             @Override
             public void onNothingSelected(AdapterView<?> adapterView)
             {
                 gameChosen = -1;
                 listToShow = null;
-                AppData.mainActivity.showSnackBar("הוסף משחקים בהגדרות",700);
+                AppData.mainActivity.showSnackBar("הוסף משחק בהגדרות",700);
                 saveFileBtn.setVisibility(View.INVISIBLE);
                 swipeToDeleteList.listData = null;
                 swipeToDeleteList.notifyDataSetChanged();
@@ -174,15 +185,19 @@ public class EventsFragment extends Fragment
         });
     }
 
+
+
     private void showGameEvents()
     {
         if(listToShow.isEmpty())
         {
             saveFileBtn.setVisibility(View.INVISIBLE);
             swipeToDeleteList.listData = null;
+            showMsgToUser("לא נרשמו אירועים");
         }
         else
         {
+            msgToUser.setVisibility(View.INVISIBLE);
             swipeToDeleteList.listData = new ArrayList<>();
             saveFileBtn.setVisibility(View.VISIBLE);
             for (Event event : listToShow)

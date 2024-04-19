@@ -2,16 +2,19 @@ package ran.tmpTest;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.View;
 
 import androidx.fragment.app.Fragment;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
+import android.widget.FrameLayout;
 
 import ran.tmpTest.R;
 
@@ -29,9 +32,6 @@ import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity
 {
-
-    private FragmentManager fm = getFragmentManager();
-
     private SharedPreferences sharedPreferences;
 
     private SharedPreferences.Editor editor;
@@ -197,7 +197,6 @@ public class MainActivity extends AppCompatActivity
             }
         }
     }
-
     public void showSnackBar(String msg, int time)
     {
         Snackbar snackBar = Snackbar.make(mainActivityView, msg, Snackbar.LENGTH_SHORT);
