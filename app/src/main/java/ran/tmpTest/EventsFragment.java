@@ -59,13 +59,13 @@ public class EventsFragment extends Fragment
         view = inflater.inflate(R.layout.fragment_events, container, false);
         saveFileBtn = view.findViewById(R.id.saveFileBtn);
         AppData.eventsFragment = this;
+        msgToUser = view.findViewById(R.id.msgToUser);
         if (AppData.gamesStringList.isEmpty())
         {
-            AppData.mainActivity.showSnackBar("הוסף משחק בהגדרות",500);
+            showMsgToUser("רשימת המשחקים ריקה\nהוסף משחק בהגדרות");
             saveFileBtn.setVisibility(View.INVISIBLE);
             return view;
         }
-        msgToUser = view.findViewById(R.id.msgToUser);
         eventsList = view.findViewById(R.id.eventsList);
         chooseGameDropDownList = view.findViewById(R.id.choseGameDropDownList);
         saveFileBtn.setOnClickListener(this::saveFileBtn);
@@ -112,7 +112,10 @@ public class EventsFragment extends Fragment
                 listToShow.remove(position);
                 swipeToDeleteList.notifyItemRemoved(position);
                 if(listToShow.isEmpty())
+                {
                     saveFileBtn.setVisibility(View.INVISIBLE);
+                    showMsgToUser("לא נרשמו אירועים");
+                }
             }
 
             @Override
@@ -171,13 +174,13 @@ public class EventsFragment extends Fragment
                 gameChosen = position;
                 listToShow = AppData.games.get(position).events;
                 showGameEvents();
+                swipeToDeleteList.notifyDataSetChanged();
             }
             @Override
             public void onNothingSelected(AdapterView<?> adapterView)
             {
                 gameChosen = -1;
                 listToShow = null;
-                AppData.mainActivity.showSnackBar("הוסף משחק בהגדרות",700);
                 saveFileBtn.setVisibility(View.INVISIBLE);
                 swipeToDeleteList.listData = null;
                 swipeToDeleteList.notifyDataSetChanged();
@@ -203,6 +206,5 @@ public class EventsFragment extends Fragment
             for (Event event : listToShow)
                 swipeToDeleteList.listData.add(event.toString());
         }
-        swipeToDeleteList.notifyDataSetChanged();
     }
 }
