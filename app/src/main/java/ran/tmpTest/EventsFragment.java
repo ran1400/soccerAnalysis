@@ -90,6 +90,35 @@ public class EventsFragment extends Fragment
         msgToUser.setVisibility(View.VISIBLE);
     }
 
+    private void swipeToDelete(int position) // user swiped event to delete
+    {
+        Event eventToRemove = listToShow.get(position);
+        swipeToDeleteList.listData.remove(position);
+        listToShow.remove(position);
+        swipeToDeleteList.notifyItemRemoved(position);
+        if(listToShow.isEmpty())
+        {
+            saveFileBtn.setVisibility(View.INVISIBLE);
+            showMsgToUser("לא נרשמו אירועים");
+        }
+        showEventRemoveSnackBar(position,eventToRemove);
+    }
+
+    private void showEventRemoveSnackBar(int position,Event eventToRemove)
+    {
+        Snackbar snackBar = Snackbar.make(AppData.mainActivity.getView(),"האירוע נמחק", Snackbar.LENGTH_LONG);
+        snackBar.setAction("ביטול", new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View view)
+            {
+                listToShow.add(position,eventToRemove);
+                swipeToDeleteList.listData.add(position,eventToRemove.toString());
+                swipeToDeleteList.notifyDataSetChanged();
+            }
+        }).setDuration(700).show();
+    }
+
     private void createEventsList()
     {
         ItemTouchHelper.SimpleCallback simpleCallback = new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT)
@@ -106,16 +135,7 @@ public class EventsFragment extends Fragment
             @Override
             public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction)
             {
-                // Remove the swiped item from the list
-                int position = viewHolder.getAdapterPosition();
-                swipeToDeleteList.listData.remove(position);
-                listToShow.remove(position);
-                swipeToDeleteList.notifyItemRemoved(position);
-                if(listToShow.isEmpty())
-                {
-                    saveFileBtn.setVisibility(View.INVISIBLE);
-                    showMsgToUser("לא נרשמו אירועים");
-                }
+                swipeToDelete(viewHolder.getAdapterPosition());
             }
 
             @Override

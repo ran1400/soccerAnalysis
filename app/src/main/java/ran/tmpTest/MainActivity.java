@@ -89,6 +89,11 @@ public class MainActivity extends AppCompatActivity
         clockCheck();
     }
 
+    public View getView()
+    {
+        return mainActivityView;
+    }
+
     private class ClockThread implements java.lang.Runnable
     {
         public void run()
@@ -203,19 +208,7 @@ public class MainActivity extends AppCompatActivity
         snackBar.setAction("", null).setDuration(time).show();
     }
 
-    public void showEventAddedSnackBar(Game game)
-    {
-        Snackbar snackBar = Snackbar.make(mainActivityView,"האירוע נרשם", Snackbar.LENGTH_SHORT);
-        snackBar.setAction("ביטול", new View.OnClickListener()
-        {
-            @Override
-            public void onClick(View view)
-            {
-                game.removeLestEvent();
-                showSnackBar("האירוע נמחק",500);
-            }
-        }).setDuration(700).show();
-    }
+
 
 
     public void gameBtn(View view)

@@ -22,6 +22,8 @@ import android.widget.Toast;
 
 import androidx.constraintlayout.widget.ConstraintLayout;
 
+import com.google.android.material.snackbar.Snackbar;
+
 import java.util.List;
 
 import ran.tmpTest.alertDialogs.AddEventAlertDialog;
@@ -283,8 +285,23 @@ public class GameFragment extends Fragment
             Event event = makeEvent(eventNum);
             Game crntGame = AppData.games.get(GameFragment.gameChosen);
             crntGame.events.add(event);
-            AppData.mainActivity.showEventAddedSnackBar(crntGame);
+            //AppData.mainActivity.showEventAddedSnackBar(crntGame);
+            showEventAddedSnackBar(crntGame);
         }
+    }
+
+    public void showEventAddedSnackBar(Game game)
+    {
+        Snackbar snackBar = Snackbar.make(AppData.mainActivity.getView(),"האירוע נרשם", Snackbar.LENGTH_SHORT);
+        snackBar.setAction("ביטול", new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View view)
+            {
+                game.removeLestEvent();
+                AppData.mainActivity.showSnackBar("האירוע נמחק",500);
+            }
+        }).setDuration(700).show();
     }
 
 

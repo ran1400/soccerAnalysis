@@ -121,7 +121,7 @@ public class AddEventAlertDialog extends AppCompatDialogFragment
         Event event = makeEvent(eventChosen);
         Game crntGame = AppData.games.get(GameFragment.gameChosen);
         crntGame.events.add(event);
-        AppData.mainActivity.showEventAddedSnackBar(crntGame);
+        AppData.gameFragment.showEventAddedSnackBar(crntGame);
         dismiss();
     }
 
