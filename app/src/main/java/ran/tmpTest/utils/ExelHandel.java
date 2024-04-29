@@ -28,24 +28,26 @@ import java.util.Locale;
 
 public class ExelHandel
 {
+    private Game game;
     private Cell cell;
     private Sheet sheet;
     private Workbook workbook = new HSSFWorkbook();
     private CellStyle headerCellStyle;
-    private String fileName;
 
-    private String gameName;
+    public ExelHandel(Game game)
+    {
+        this.game = game;
+    }
 
     public boolean makeEventsFile()
     {
-        gameName = AppData.gamesStringList.get(EventsFragment.gameChosen);
         SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy HH-mm-ss", Locale.getDefault());
         String time = sdf.format(new Date());
-        fileName = gameName + " " + time + ".xls";
-        return makeEventsFileHelper();
+        String fileName = game.gameName + " " + time + ".xls";
+        return makeEventsFileHelper(fileName);
     }
 
-    private boolean makeEventsFileHelper()
+    private boolean makeEventsFileHelper(String fileName)
     {
         boolean isWorkbookWrittenIntoStorage;
 
@@ -60,7 +62,7 @@ public class ExelHandel
         workbook = new HSSFWorkbook();
 
         setHeaderCellStyle();
-        sheet = workbook.createSheet(gameName);
+        sheet = workbook.createSheet(fileName);
         sheet.setColumnWidth(0, (7 * 400));
         sheet.setColumnWidth(1, (4 * 400));
         sheet.setColumnWidth(2, (7 * 400));
@@ -70,7 +72,7 @@ public class ExelHandel
 
         setHeaders();
         fillData();
-        isWorkbookWrittenIntoStorage = storeExcelInStorage();
+        isWorkbookWrittenIntoStorage = storeExcelInStorage(fileName);
 
         return isWorkbookWrittenIntoStorage;
     }
@@ -80,7 +82,7 @@ public class ExelHandel
         String gamePart,team,playerNum;
         Row row;
         int rowNum = 1;
-        List<Event> events = AppData.games.get(EventsFragment.gameChosen).events;
+        List<Event> events = game.events;
         for (Event event : events)
         {
             switch (event.gamePart)
@@ -135,7 +137,7 @@ public class ExelHandel
         headerCellStyle.setAlignment(CellStyle.ALIGN_CENTER);
     }
 
-    private boolean storeExcelInStorage()
+    private boolean storeExcelInStorage(String fileName)
     {
         boolean isSuccess;
         File downloadPath = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS);

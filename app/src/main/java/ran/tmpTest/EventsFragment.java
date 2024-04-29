@@ -171,7 +171,7 @@ public class EventsFragment extends Fragment
 
     public void saveFileBtn(View view)
     {
-        ExelHandel exelHandel = new ExelHandel();
+        ExelHandel exelHandel = new ExelHandel(AppData.games.get(gameChosen));
         boolean success =  exelHandel.makeEventsFile();
         if (success)
             AppData.mainActivity.showSnackBar("הקובץ נשמר בתיקיית הורדות",1000);
@@ -207,8 +207,6 @@ public class EventsFragment extends Fragment
             }
         });
     }
-
-
 
     private void showGameEvents()
     {
