@@ -125,7 +125,7 @@ public class GameFragment extends Fragment
     {
         if(AppData.games.isEmpty())
         {
-            Toast.makeText(getActivity(), "הוסף משחק בהגדרות", Toast.LENGTH_LONG).show();
+            Toast.makeText(getActivity(), R.string.addGameInTheSettings, Toast.LENGTH_SHORT).show();
             return;
         }
         AppData.playerChosenDigit1 = playerDigit1NumberPicker.getValue();
@@ -148,10 +148,10 @@ public class GameFragment extends Fragment
             case R.id.noTeam :
                 AppData.teamChosen = Event.Team.NON;
                 break;
-            case R.id.home :
+            case R.id.home_team:
                 AppData.teamChosen = Event.Team.HOME_TEAM;
                 break;
-            case R.id.away :
+            case R.id.away_team:
                 AppData.teamChosen = Event.Team.AWAY_TEAM;
         }
     }
@@ -161,10 +161,10 @@ public class GameFragment extends Fragment
         switch(AppData.gamePartChosen)
         {
             case HALF_1:
-                choseGamePartRadioGroup.check(R.id.h1);
+                choseGamePartRadioGroup.check(R.id.half1);
                 break;
             case HALF_2:
-                choseGamePartRadioGroup.check(R.id.h2);
+                choseGamePartRadioGroup.check(R.id.half2);
                 break;
             case EXTRA_TIME_1:
                  choseGamePartRadioGroup.check(R.id.et1);
@@ -182,10 +182,10 @@ public class GameFragment extends Fragment
                 choseTeamRadioGroup.check(R.id.noTeam);
                 break;
             case HOME_TEAM:
-                choseTeamRadioGroup.check(R.id.home);
+                choseTeamRadioGroup.check(R.id.home_team);
                 break;
             case AWAY_TEAM:
-                choseTeamRadioGroup.check(R.id.away);
+                choseTeamRadioGroup.check(R.id.away_team);
         }
     }
 
@@ -193,10 +193,10 @@ public class GameFragment extends Fragment
     {
         switch(checkedId)
         {
-            case R.id.h1:
+            case R.id.half1:
                 AppData.gamePartChosen = Event.GamePart.HALF_1;
                 break;
-            case R.id.h2:
+            case R.id.half2:
                 AppData.gamePartChosen = Event.GamePart.HALF_2;
                 break;
             case R.id.et1 :
@@ -249,12 +249,12 @@ public class GameFragment extends Fragment
     {
         if (AppData.gamesStringList.size() == 0)
         {
-            showMsgToUser("הוסף משחק בהגדרות");
+            showMsgToUser(getString(R.string.addGameInTheSettings));
             return;
         }
         else if (list.isEmpty())
         {
-            showMsgToUser("הוסף אירועים בהגדרות");
+            showMsgToUser(getString(R.string.addEventsInTheSettings));
             return;
         }
 
@@ -285,23 +285,22 @@ public class GameFragment extends Fragment
             Event event = makeEvent(eventNum);
             Game crntGame = AppData.games.get(GameFragment.gameChosen);
             crntGame.events.add(event);
-            //AppData.mainActivity.showEventAddedSnackBar(crntGame);
             showEventAddedSnackBar(crntGame);
         }
     }
 
     public void showEventAddedSnackBar(Game game)
     {
-        Snackbar snackBar = Snackbar.make(AppData.mainActivity.getView(),"האירוע נרשם", Snackbar.LENGTH_SHORT);
-        snackBar.setAction("ביטול", new View.OnClickListener()
+        Snackbar snackBar = Snackbar.make(AppData.mainActivity.getView(),R.string.theEventWasRecorded, Snackbar.LENGTH_SHORT);
+        snackBar.setAction(R.string.cancel, new View.OnClickListener()
         {
             @Override
             public void onClick(View view)
             {
                 game.removeLestEvent();
-                AppData.mainActivity.showSnackBar("האירוע נמחק",500);
+                AppData.mainActivity.showSnackBar(getString(R.string.theEventIsDeleted),700);
             }
-        }).setDuration(700).show();
+        }).setDuration(1000).show();
     }
 
 

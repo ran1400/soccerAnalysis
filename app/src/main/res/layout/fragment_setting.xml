@@ -12,7 +12,7 @@
         android:id="@+id/topHeader"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="רשימת אירועים :"
+        android:text="@string/eventsList"
         android:textSize="36sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
@@ -47,13 +47,13 @@
         android:id="@+id/eventOrGameEditText"
         android:layout_width="match_parent"
         android:layout_height="50dp"
-        android:hint="הכנס שם אירוע"
+        android:hint="@string/writeEventName"
         android:maxLength="30"
         android:singleLine="true"
         android:textAlignment="textStart"
         android:textAppearance="@style/TextAppearance.AppCompat.Display1"
         android:textSize="22sp"
-        app:layout_constraintBottom_toTopOf="@id/edit"
+        app:layout_constraintBottom_toTopOf="@id/reName"
         app:layout_constraintTop_toBottomOf="@id/selectList" />
 
     <Button
@@ -61,8 +61,7 @@
         style="@android:style/Widget.Holo.Button"
         android:layout_width="0dp"
         android:layout_height="55dp"
-        android:text="הוסף אירוע"
-
+        android:text="@string/addEvent"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/whereToAdd" />
@@ -72,17 +71,17 @@
         style="@android:style/Widget.Holo.Button"
         android:layout_width="150dp"
         android:layout_height="55dp"
-        android:text="מחק אירוע"
+        android:text="@string/deleteEvent"
         android:visibility="invisible"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent" />
 
     <Button
-        android:id="@+id/edit"
+        android:id="@+id/reName"
         style="@android:style/Widget.Holo.Button"
         android:layout_width="0dp"
         android:layout_height="55dp"
-        android:text="שנה אירוע"
+        android:text="@string/editEvents"
         android:visibility="invisible"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -101,14 +100,14 @@
             android:id="@+id/addToUp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="לראש הרשימה" />
+            android:text="@string/toTopOfTheList" />
 
         <RadioButton
             android:id="@+id/addToDown"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:checked="true"
-            android:text="לסוף הרשימה" />
+            android:text="@string/toBottomOfTheList" />
     </RadioGroup>
 
     <RadioGroup
@@ -130,9 +129,8 @@
             android:layout_weight="1"
             android:background="@drawable/no_chosen_radio_button"
             android:button="@null"
-
             android:gravity="center"
-            android:text="ערוך משחקים"
+            android:text="@string/editGames"
             android:textSize="24sp" />
 
         <RadioButton
@@ -144,7 +142,7 @@
             android:button="@null"
             android:checked="true"
             android:gravity="center"
-            android:text="ערוך אירועים"
+            android:text="@string/editEvents"
             android:textSize="24sp" />
     </RadioGroup>
 

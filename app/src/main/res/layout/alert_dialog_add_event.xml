@@ -10,8 +10,10 @@
         android:id="@+id/playerNumTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="מספר שחקן "
-        android:textSize="24sp"
+        android:text="@string/playerNumber"
+        android:textSize="18sp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toLeftOf="@id/divider2"
 
         />
 
@@ -52,7 +54,7 @@
         android:id="@+id/gamePartText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="מחצית 1"
+        android:text="@string/half1"
         android:textSize="24sp"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintLeft_toLeftOf="@id/divider2"
@@ -74,13 +76,13 @@
         >
 
         <RadioButton
-            android:id="@+id/away"
+            android:id="@+id/away_team"
             android:layout_width="wrap_content"
             android:layout_height="50dp"
             android:layout_weight="1"
             android:button="@null"
             android:gravity="center"
-            android:text="קבוצה אורחת"
+            android:text="@string/awayTeam"
             android:textSize="24sp"
             android:background="@drawable/no_chosen_radio_button"/>
 
@@ -97,13 +99,13 @@
             android:background="@drawable/chosen_radio_button"/>
 
         <RadioButton
-            android:id="@+id/home"
+            android:id="@+id/home_team"
             android:layout_width="wrap_content"
             android:layout_height="50dp"
             android:layout_weight="1"
             android:button="@null"
             android:gravity="center"
-            android:text="קבוצה ביתית"
+            android:text="@string/homeTeam"
             android:textSize="24sp"
             android:background="@drawable/no_chosen_radio_button"/>
 
@@ -116,10 +118,10 @@
         android:layout_height="4dp"
         android:background="?android:attr/listDivider"
         android:visibility="invisible"
-        app:layout_constraintBottom_toTopOf="@id/space" />
+        app:layout_constraintBottom_toTopOf="@id/space1" />
 
     <Space
-        android:id="@+id/space"
+        android:id="@+id/space1"
         android:layout_width="match_parent"
         android:layout_height="3dp"
         app:layout_constraintBottom_toTopOf="@+id/scrollViewLayout" />
@@ -171,7 +173,7 @@
                     android:layout_marginLeft="30dp"
                     android:layout_marginRight="10dp"
                     android:ems="10"
-                    android:hint="שם האירוע"
+                    android:hint="@string/eventName"
                     android:textAlignment="textStart">
 
                 </EditText>
@@ -205,8 +207,9 @@
         android:id="@+id/cancelButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="50dp"
-        android:text="בטל"
+        android:text="@string/cancel"
+        android:textAllCaps="false"
+        app:layout_constraintLeft_toRightOf="@id/saveButton"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintRight_toRightOf="parent" />
 
@@ -214,8 +217,9 @@
         android:id="@+id/saveButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="50dp"
-        android:text="שמור"
+        app:layout_constraintRight_toLeftOf="@id/cancelButton"
+        android:text="@string/save"
+        android:textAllCaps="false"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent" />
 

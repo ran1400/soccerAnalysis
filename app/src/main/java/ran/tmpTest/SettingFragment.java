@@ -48,7 +48,7 @@ public class SettingFragment extends Fragment
         eventOrGameEditText = view.findViewById(R.id.eventOrGameEditText);
         deleteBtn = view.findViewById(R.id.delete);
         addBtn = view.findViewById(R.id.add);
-        editBtn = view.findViewById(R.id.edit);
+        editBtn = view.findViewById(R.id.reName);
         eventsListView = view.findViewById(R.id.dragAndDropListEvents);
         gamesListView = view.findViewById(R.id.dragAndDropListGames);
         deleteBtn.setOnClickListener((View) -> deleteBtn());
@@ -97,22 +97,22 @@ public class SettingFragment extends Fragment
                 eventsDragAndDropList.notifyItemChanged(AppData.listChoosePosition);
                 gamesListView.setVisibility(View.VISIBLE);
                 eventsListView.setVisibility(View.INVISIBLE);
-                headerTextView.setText("רשימת משחקים :");
-                eventOrGameEditText.setHint("הכנס שם משחק");
-                addBtn.setText("הוסף משחק");
-                editBtn.setText("שנה שם משחק");
-                deleteBtn.setText("מחק משחק");
+                headerTextView.setText(getString(R.string.gamesList));
+                eventOrGameEditText.setHint(getString(R.string.writeGameName));
+                addBtn.setText(getString(R.string.addGame));
+                editBtn.setText(getString(R.string.renameGame));
+                deleteBtn.setText(getString(R.string.deleteGame));
                 break;
             case R.id.evetnsList :
                 listToShow = AppData.events;
                 gamesDragAndDropList.notifyItemChanged(AppData.listChoosePosition);
                 gamesListView.setVisibility(View.INVISIBLE);
                 eventsListView.setVisibility(View.VISIBLE);
-                headerTextView.setText("רשימת אירועים :");
-                eventOrGameEditText.setHint("הכנס שם אירוע");
-                addBtn.setText("הוסף אירוע");
-                editBtn.setText("שנה אירוע");
-                deleteBtn.setText("מחק אירוע");
+                headerTextView.setText(getString(R.string.eventsList));
+                eventOrGameEditText.setHint(getString(R.string.writeEventName));
+                addBtn.setText(getString(R.string.addEvent));
+                editBtn.setText(getString(R.string.renameEvent));
+                deleteBtn.setText(getString(R.string.deleteEvent));
                 break;
         }
         changeToNoneChoseItemMode();
@@ -138,7 +138,7 @@ public class SettingFragment extends Fragment
     {
         DragAndDropList recyclerAdapter = new DragAndDropList(list);
         recyclerView.setAdapter(recyclerAdapter);
-        DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(getActivity(), DividerItemDecoration.VERTICAL);
+        DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(AppData.mainActivity, DividerItemDecoration.VERTICAL);
         recyclerView.addItemDecoration(dividerItemDecoration);
         ItemTouchHelper itemTouchHelper = new ItemTouchHelper(new ItemTouchHelper.SimpleCallback(ItemTouchHelper.UP | ItemTouchHelper.DOWN | ItemTouchHelper.START | ItemTouchHelper.END, 0)
         {

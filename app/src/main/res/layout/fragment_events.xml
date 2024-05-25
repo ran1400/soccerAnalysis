@@ -25,9 +25,12 @@
         android:layout_marginLeft="5dp"
         android:layout_marginBottom="5dp"
         android:background="#592BAC"
-        android:text="  📁 שמור כקובץ  "
+        android:text="@string/saveAsAFile"
         android:textColor="#F3EAEA"
+        android:textAllCaps="false"
         android:textSize="20sp"
+        android:paddingLeft="15dp"
+        android:paddingRight="15dp"
         android:visibility="invisible"
         app:layout_constraintBottom_toTopOf="@id/choseGameDropDownList"
         app:layout_constraintLeft_toLeftOf="parent" />

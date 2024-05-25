@@ -1,13 +1,7 @@
 package ran.tmpTest.utils;
 
-import static android.content.ContentValues.TAG;
-
 import android.os.Environment;
 import android.util.Log;
-
-
-import ran.tmpTest.EventsFragment;
-import ran.tmpTest.sharedData.AppData;
 
 import org.apache.poi.hssf.usermodel.HSSFCellStyle;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
@@ -26,6 +20,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
+
 public class ExelHandel
 {
     private Game game;
@@ -38,12 +33,12 @@ public class ExelHandel
     {
         this.game = game;
     }
-
     public boolean makeEventsFile()
     {
         SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy HH-mm-ss", Locale.getDefault());
         String time = sdf.format(new Date());
-        String fileName = game.gameName + " " + time + ".xls";
+        String fixedGameName = game.gameName.replaceAll("[\\\\/:*?\"<>|]", "-");
+        String fileName = fixedGameName + " " + time + ".xls";
         return makeEventsFileHelper(fileName);
     }
 
@@ -54,7 +49,7 @@ public class ExelHandel
         // Check if available and not read only
         if (!isExternalStorageAvailable() || isExternalStorageReadOnly())
         {
-            Log.e(TAG, "Storage not available or read only");
+            Log.d("exelHandel", "Storage not available or read only");
             return false;
         }
 
@@ -147,17 +142,17 @@ public class ExelHandel
         {
             fileOutputStream = new FileOutputStream(file);
             workbook.write(fileOutputStream);
-            Log.e(TAG, "Writing file" + file);
+            Log.d("exelHandel", "Writing file" + file);
             isSuccess = true;
         }
         catch (IOException e)
         {
-            Log.e(TAG, "Error writing Exception: ", e);
+            Log.d("exelHandel", "Error writing Exception: ", e);
             isSuccess = false;
         }
         catch (Exception e)
         {
-            Log.e(TAG, "Failed to save file due to Exception: ", e);
+            Log.d("exelHandel", "Failed to save file due to Exception: ", e);
             isSuccess = false;
         }
         finally

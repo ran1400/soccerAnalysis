@@ -62,7 +62,7 @@ public class EventsFragment extends Fragment
         msgToUser = view.findViewById(R.id.msgToUser);
         if (AppData.gamesStringList.isEmpty())
         {
-            showMsgToUser("רשימת המשחקים ריקה\nהוסף משחק בהגדרות");
+            showMsgToUser(getString(R.string.theGamesListIsEmptyAddGameInTheSettings));
             saveFileBtn.setVisibility(View.INVISIBLE);
             return view;
         }
@@ -99,24 +99,26 @@ public class EventsFragment extends Fragment
         if(listToShow.isEmpty())
         {
             saveFileBtn.setVisibility(View.INVISIBLE);
-            showMsgToUser("לא נרשמו אירועים");
+            showMsgToUser(getString(R.string.noEventsHaveBeenRecordedYet));
         }
         showEventRemoveSnackBar(position,eventToRemove);
     }
 
     private void showEventRemoveSnackBar(int position,Event eventToRemove)
     {
-        Snackbar snackBar = Snackbar.make(AppData.mainActivity.getView(),"האירוע נמחק", Snackbar.LENGTH_LONG);
-        snackBar.setAction("ביטול", new View.OnClickListener()
+        Snackbar snackBar = Snackbar.make(AppData.mainActivity.getView(),R.string.theEventIsDeleted, Snackbar.LENGTH_LONG);
+        snackBar.setAction(R.string.cancel, new View.OnClickListener()
         {
             @Override
             public void onClick(View view)
             {
+                if (listToShow.isEmpty())
+                    showMsgToUser("");
                 listToShow.add(position,eventToRemove);
                 swipeToDeleteList.listData.add(position,eventToRemove.toString());
                 swipeToDeleteList.notifyDataSetChanged();
             }
-        }).setDuration(700).show();
+        }).setDuration(1000).show();
     }
 
     private void createEventsList()
@@ -151,7 +153,7 @@ public class EventsFragment extends Fragment
                 if (swipeToDeleteText == null)
                 {
                     swipeToDeleteText = new TextView(view.getContext());
-                    swipeToDeleteText.setText("החלק למחיקה");
+                    swipeToDeleteText.setText(R.string.swipeTDelete);
                     swipeToDeleteText.setTextColor(Color.WHITE);
                     swipeToDeleteText.setBackgroundColor(Color.RED);
                     swipeToDeleteText.setPadding(16, 16, 16, 16);
@@ -174,9 +176,9 @@ public class EventsFragment extends Fragment
         ExelHandel exelHandel = new ExelHandel(AppData.games.get(gameChosen));
         boolean success =  exelHandel.makeEventsFile();
         if (success)
-            AppData.mainActivity.showSnackBar("הקובץ נשמר בתיקיית הורדות",1000);
+            AppData.mainActivity.showSnackBar(getString(R.string.theFileIsSavedInTheDownloadsFolder),1000);
         else
-            AppData.mainActivity.showSnackBar("שמירת הקובץ נכשלה",1000);
+            AppData.mainActivity.showSnackBar(getString(R.string.failedToSaveTheFile),1000);
     }
 
     public void createChoseGameDropDownList()
@@ -214,7 +216,7 @@ public class EventsFragment extends Fragment
         {
             saveFileBtn.setVisibility(View.INVISIBLE);
             swipeToDeleteList.listData = null;
-            showMsgToUser("לא נרשמו אירועים");
+            showMsgToUser(getString(R.string.noEventsHaveBeenRecordedYet));
         }
         else
         {

@@ -10,7 +10,6 @@ import android.app.Dialog;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
@@ -21,7 +20,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import ran.tmpTest.GameFragment;
-import ran.tmpTest.MainActivity;
 import ran.tmpTest.R;
 
 
@@ -115,7 +113,7 @@ public class AddEventAlertDialog extends AppCompatDialogFragment
         int eventChosen = getEventChosen();
         if (eventChosen == PERSONAL_EVENT && specialEventEditText.getText().toString().isEmpty())
         {
-            Toast.makeText(getActivity(), "הכנס אירוע",Toast.LENGTH_SHORT).show();
+            Toast.makeText(getActivity(),getString(R.string.writeEvent),Toast.LENGTH_SHORT).show();
             return;
         }
         Event event = makeEvent(eventChosen);
@@ -157,10 +155,10 @@ public class AddEventAlertDialog extends AppCompatDialogFragment
             case R.id.noTeam :
                 teamChosen = Event.Team.NON;
                 break;
-            case R.id.home :
+            case R.id.home_team:
                 teamChosen = Event.Team.HOME_TEAM;
                 break;
-            case R.id.away :
+            case R.id.away_team:
                 teamChosen = Event.Team.AWAY_TEAM;
         }
     }
@@ -182,25 +180,25 @@ public class AddEventAlertDialog extends AppCompatDialogFragment
         switch( AppData.gamePartChosen )
         {
             case HALF_1:
-                gamePartTextView.setText("מחצית 1");
+                gamePartTextView.setText(getString(R.string.half1));
                 break;
             case HALF_2:
-                gamePartTextView.setText("מחצית 2");
+                gamePartTextView.setText(getString(R.string.half2));
                 break;
             case EXTRA_TIME_1:
-                gamePartTextView.setText("הארכה 1");
+                gamePartTextView.setText(getString(R.string.extraTime1));
                 break;
             case EXTRA_TIME_2:
-                gamePartTextView.setText("הארכה 2");
+                gamePartTextView.setText(getString(R.string.extraTime2));
         }
         teamChosen = AppData.teamChosen;
         RadioButton gamePartRadioBtnToCheck ;
         if (teamChosen == Event.Team.NON)
             gamePartRadioBtnToCheck = view.findViewById(R.id.noTeam);
         else if (teamChosen == Event.Team.HOME_TEAM)
-            gamePartRadioBtnToCheck = view.findViewById(R.id.home);
+            gamePartRadioBtnToCheck = view.findViewById(R.id.home_team);
         else // (teamChosen == Event.Team.AWAY_TEAM)
-            gamePartRadioBtnToCheck = view.findViewById(R.id.away);
+            gamePartRadioBtnToCheck = view.findViewById(R.id.away_team);
         gamePartRadioBtnToCheck.setChecked(true);
         playerDigit1NumberPicker.setValue(AppData.playerChosenDigit1);
         playerDigit2NumberPicker.setValue(AppData.playerChosenDigit2);
