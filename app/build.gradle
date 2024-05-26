@@ -10,7 +10,7 @@ android {
         applicationId "ran.tmpTest"
         minSdk 21
         targetSdk 34
-        versionCode 12
+        versionCode 14
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
 
