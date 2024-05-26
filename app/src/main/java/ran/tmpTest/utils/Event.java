@@ -1,5 +1,8 @@
 package ran.tmpTest.utils;
 
+import ran.tmpTest.R;
+import ran.tmpTest.sharedData.AppData;
+
 public class Event
 {
     public enum GamePart {HALF_1,HALF_2,EXTRA_TIME_1,EXTRA_TIME_2}
@@ -9,7 +12,6 @@ public class Event
     String time;
     int playerNum;
     String eventName;
-
 
     public Event(GamePart gamePart,Team team,int min,int sec,int playerNum,String eventName)
     {
@@ -45,9 +47,9 @@ public class Event
         if (team != Team.NON)
         {
             if (this.team == Team.HOME_TEAM)
-                res += " (home team";
+                res += " (" + AppData.mainActivity.getString(R.string.homeTeam);
             else //(team == Team.AWAY_TEAM)
-                res += " (away team";
+                res += " (" + AppData.mainActivity.getString(R.string.awayTeam);
             if (playerNum == 0) //team is not null and player is null
                 return res + ") : " + eventName;
             else
