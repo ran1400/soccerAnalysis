@@ -15,7 +15,6 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.Spinner;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.ItemTouchHelper;
@@ -24,6 +23,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.snackbar.Snackbar;
 
+import ran.tmpTest.alertDialogs.AddEventAlertDialog;
 import ran.tmpTest.sharedData.AppData;
 import ran.tmpTest.utils.Event;
 import ran.tmpTest.utils.ExelHandel;
@@ -43,7 +43,6 @@ public class EventsFragment extends Fragment
     private SwipeToDeleteList swipeToDeleteList;
 
     private TextView msgToUser;
-
     private View view;
 
     @Override
@@ -90,7 +89,13 @@ public class EventsFragment extends Fragment
         msgToUser.setVisibility(View.VISIBLE);
     }
 
-    private void swipeToDelete(int position) // user swiped event to delete
+    public void userClickOnItem(int position) // user click on event for edit him
+    {
+        AddEventAlertDialog addEventAlertDialog = new AddEventAlertDialog(listToShow.get(position));
+        addEventAlertDialog.show(AppData.mainActivity.getSupportFragmentManager(),"");
+    }
+
+    private void userSwipeItemLeft(int position) // user swiped event to delete
     {
         Event eventToRemove = listToShow.get(position);
         swipeToDeleteList.listData.remove(position);
@@ -113,16 +118,23 @@ public class EventsFragment extends Fragment
             public void onClick(View view)
             {
                 if (listToShow.isEmpty())
-                    showMsgToUser("");
-                listToShow.add(position,eventToRemove);
+                    msgToUser.setVisibility(View.INVISIBLE); //remove the msg of empty list
+                listToShow.add(position,eventToRemove); //user decide to cancel the delete event action
                 swipeToDeleteList.listData.add(position,eventToRemove.toString());
                 swipeToDeleteList.notifyDataSetChanged();
             }
         }).setDuration(1000).show();
     }
 
+    public void notifyEventEditChanged()
+    {
+        showGameEvents();
+        swipeToDeleteList.notifyDataSetChanged();
+    }
+
     private void createEventsList()
     {
+
         ItemTouchHelper.SimpleCallback simpleCallback = new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT)
         {
             private Paint paint = new Paint();
@@ -137,7 +149,7 @@ public class EventsFragment extends Fragment
             @Override
             public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction)
             {
-                swipeToDelete(viewHolder.getAdapterPosition());
+                userSwipeItemLeft(viewHolder.getAdapterPosition());
             }
 
             @Override
@@ -169,6 +181,8 @@ public class EventsFragment extends Fragment
         };
         ItemTouchHelper itemTouchHelper = new ItemTouchHelper(simpleCallback);
         itemTouchHelper.attachToRecyclerView(eventsList);
+
+
     }
 
     public void saveFileBtn(View view)

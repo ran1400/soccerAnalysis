@@ -7,11 +7,11 @@ public class Event
 {
     public enum GamePart {HALF_1,HALF_2,EXTRA_TIME_1,EXTRA_TIME_2}
     public enum Team {HOME_TEAM,NON,AWAY_TEAM}
-    GamePart gamePart;
-    Team team;
-    String time;
-    int playerNum;
-    String eventName;
+    public GamePart gamePart;
+    public Team team;
+    public String time;
+    public int playerNum;
+    public String eventName;
 
     public Event(GamePart gamePart,Team team,int min,int sec,int playerNum,String eventName)
     {
