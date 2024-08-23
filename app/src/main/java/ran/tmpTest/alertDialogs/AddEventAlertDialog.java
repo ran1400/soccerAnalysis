@@ -30,10 +30,7 @@ import ran.tmpTest.utils.Game;
 
 public class AddEventAlertDialog extends AppCompatDialogFragment
 {
-
-    private boolean editEvent; // if to edit exist event in the events list teb
-
-    private Event eventToEdit;
+    private Event eventToEdit; // if null -> user want create new event
     private NumberPicker playerDigit1NumberPicker, playerDigit2NumberPicker;
     private ConstraintLayout eventsScrollView;
     private RadioGroup eventsRadioGroup;
@@ -48,12 +45,11 @@ public class AddEventAlertDialog extends AppCompatDialogFragment
 
     public AddEventAlertDialog()
     {
-        this.editEvent = false;
+        eventToEdit = null;
     }
 
     public AddEventAlertDialog(Event eventToEdit)
     {
-        this.editEvent = true;
         this.eventToEdit = eventToEdit;
     }
 
@@ -83,7 +79,7 @@ public class AddEventAlertDialog extends AppCompatDialogFragment
         setPlayerNumPickers0To9();
         GameFragment.setLayoutSize(eventsScrollView,50);
         getEventChosenHelper = addEvents(); //addEvents return the button Id of the first event in list
-        if (editEvent == false)
+        if (eventToEdit == null)
             setDefaultClockAndPickers();
         else
         {
@@ -145,7 +141,7 @@ public class AddEventAlertDialog extends AppCompatDialogFragment
             return;
         }
 
-        if (editEvent)
+        if (eventToEdit != null) // user want to edit event
         {
             eventToEdit.playerNum = getPlayerNumber();
             eventToEdit.team = teamChosen;
