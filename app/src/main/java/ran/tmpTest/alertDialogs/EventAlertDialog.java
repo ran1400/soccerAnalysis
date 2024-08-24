@@ -28,7 +28,7 @@ import ran.tmpTest.utils.Event;
 import ran.tmpTest.utils.Game;
 
 
-public class AddEventAlertDialog extends AppCompatDialogFragment
+public class EventAlertDialog extends AppCompatDialogFragment
 {
     private Event eventToEdit; // if null -> user want create new event
     private NumberPicker playerDigit1NumberPicker, playerDigit2NumberPicker;
@@ -43,12 +43,12 @@ public class AddEventAlertDialog extends AppCompatDialogFragment
     private View view;
     private Button saveBtn,cancelBtn;
 
-    public AddEventAlertDialog()
+    public EventAlertDialog()
     {
         eventToEdit = null;
     }
 
-    public AddEventAlertDialog(Event eventToEdit)
+    public EventAlertDialog(Event eventToEdit)
     {
         this.eventToEdit = eventToEdit;
     }
@@ -58,7 +58,7 @@ public class AddEventAlertDialog extends AppCompatDialogFragment
     {
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         LayoutInflater inflater = requireActivity().getLayoutInflater();
-        view = inflater.inflate(R.layout.alert_dialog_add_event, null);
+        view = inflater.inflate(R.layout.alert_dialog_event, null);
         clockTextView = view.findViewById(R.id.clockText);
         saveBtn = view.findViewById(R.id.saveButton);
         cancelBtn = view.findViewById(R.id.cancelButton);

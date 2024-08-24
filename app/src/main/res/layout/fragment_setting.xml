@@ -45,19 +45,17 @@
 
     <EditText
         android:id="@+id/eventOrGameEditText"
-        android:layout_width="match_parent"
         android:layout_height="50dp"
+        android:layout_width="match_parent"
         android:hint="@string/writeEventName"
-        android:maxLength="30"
-        android:singleLine="true"
         android:textAlignment="textStart"
         android:textAppearance="@style/TextAppearance.AppCompat.Display1"
         android:textSize="22sp"
-        app:layout_constraintBottom_toTopOf="@id/reName"
+        app:layout_constraintBottom_toTopOf="@id/editBtn"
         app:layout_constraintTop_toBottomOf="@id/selectList" />
 
     <Button
-        android:id="@+id/add"
+        android:id="@+id/addBtn"
         style="@android:style/Widget.Holo.Button"
         android:layout_width="0dp"
         android:layout_height="55dp"
@@ -67,7 +65,7 @@
         app:layout_constraintStart_toEndOf="@+id/whereToAdd" />
 
     <Button
-        android:id="@+id/delete"
+        android:id="@+id/deleteBtn"
         style="@android:style/Widget.Holo.Button"
         android:layout_width="150dp"
         android:layout_height="55dp"
@@ -77,15 +75,16 @@
         app:layout_constraintLeft_toLeftOf="parent" />
 
     <Button
-        android:id="@+id/reName"
+        android:id="@+id/editBtn"
         style="@android:style/Widget.Holo.Button"
         android:layout_width="0dp"
         android:layout_height="55dp"
-        android:text="@string/editEvents"
+        android:text="@string/renameEvent"
         android:visibility="invisible"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/delete"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toEndOf="@+id/deleteBtn"
         app:layout_constraintTop_toBottomOf="@id/eventOrGameEditText" />
 
 

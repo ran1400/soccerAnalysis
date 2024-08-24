@@ -23,7 +23,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.snackbar.Snackbar;
 
-import ran.tmpTest.alertDialogs.AddEventAlertDialog;
+import ran.tmpTest.alertDialogs.EventAlertDialog;
 import ran.tmpTest.sharedData.AppData;
 import ran.tmpTest.utils.Event;
 import ran.tmpTest.utils.ExelHandel;
@@ -91,8 +91,8 @@ public class EventsFragment extends Fragment
 
     public void userClickOnItem(int position) // user click on event for edit him
     {
-        AddEventAlertDialog addEventAlertDialog = new AddEventAlertDialog(listToShow.get(position));
-        addEventAlertDialog.show(AppData.mainActivity.getSupportFragmentManager(),"");
+        EventAlertDialog eventAlertDialog = new EventAlertDialog(listToShow.get(position));
+        eventAlertDialog.show(AppData.mainActivity.getSupportFragmentManager(),"");
     }
 
     private void userSwipeItemLeft(int position) // user swiped event to delete
@@ -200,7 +200,7 @@ public class EventsFragment extends Fragment
 
         ArrayAdapter<String>adapter = new ArrayAdapter(getActivity(),
                                                        android.R.layout.simple_spinner_item,AppData.gamesStringList);
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        adapter.setDropDownViewResource(R.layout.spinner_item);
         chooseGameDropDownList.setAdapter(adapter);
         chooseGameDropDownList.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener()
         {

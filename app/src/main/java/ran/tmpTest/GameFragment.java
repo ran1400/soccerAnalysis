@@ -26,7 +26,7 @@ import com.google.android.material.snackbar.Snackbar;
 
 import java.util.List;
 
-import ran.tmpTest.alertDialogs.AddEventAlertDialog;
+import ran.tmpTest.alertDialogs.EventAlertDialog;
 import ran.tmpTest.sharedData.AppData;
 import ran.tmpTest.utils.Event;
 import ran.tmpTest.utils.Game;
@@ -130,8 +130,8 @@ public class GameFragment extends Fragment
         }
         AppData.playerChosenDigit1 = playerDigit1NumberPicker.getValue();
         AppData.playerChosenDigit2 = playerDigit2NumberPicker.getValue();
-        AddEventAlertDialog addEventAlertDialog = new AddEventAlertDialog();
-        addEventAlertDialog.show(AppData.mainActivity.getSupportFragmentManager(),"");
+        EventAlertDialog eventAlertDialog = new EventAlertDialog();
+        eventAlertDialog.show(AppData.mainActivity.getSupportFragmentManager(),"");
     }
 
 
@@ -225,7 +225,7 @@ public class GameFragment extends Fragment
     {
         ArrayAdapter<String>adapter = new ArrayAdapter<>(getActivity(),
                 android.R.layout.simple_spinner_item,AppData.gamesStringList);
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        adapter.setDropDownViewResource(R.layout.spinner_item);
         choseGameDropDownList.setAdapter(adapter);
         choseGameDropDownList.setOnItemSelectedListener(onSelectGameDropDownList());
     }
@@ -265,7 +265,7 @@ public class GameFragment extends Fragment
         {
             int buttonStyle = R.style.buttonStyle;
             buttons[i]  = new Button(new ContextThemeWrapper(getActivity(), buttonStyle), null, buttonStyle);
-            buttons[i].setHeight(170);
+            buttons[i].setMinHeight(170);
             buttons[i].setOnClickListener(new eventListener(i));
             buttons[i].setText(list.get(i));
             linearLayout.addView(buttons[i]);

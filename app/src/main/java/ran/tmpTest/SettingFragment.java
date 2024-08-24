@@ -46,9 +46,9 @@ public class SettingFragment extends Fragment
         addToTopOrBottomRadioGroup = view.findViewById(R.id.whereToAdd);
         headerTextView = view.findViewById(R.id.topHeader);
         eventOrGameEditText = view.findViewById(R.id.eventOrGameEditText);
-        deleteBtn = view.findViewById(R.id.delete);
-        addBtn = view.findViewById(R.id.add);
-        editBtn = view.findViewById(R.id.reName);
+        deleteBtn = view.findViewById(R.id.deleteBtn);
+        addBtn = view.findViewById(R.id.addBtn);
+        editBtn = view.findViewById(R.id.editBtn);
         eventsListView = view.findViewById(R.id.dragAndDropListEvents);
         gamesListView = view.findViewById(R.id.dragAndDropListGames);
         deleteBtn.setOnClickListener((View) -> deleteBtn());
@@ -89,7 +89,6 @@ public class SettingFragment extends Fragment
 
     private void onListChange(int checkedId)
     {
-        eventOrGameEditText.setText("");
         switch(checkedId)
         {
             case R.id.gamesList:
@@ -120,15 +119,22 @@ public class SettingFragment extends Fragment
 
     public void changeToUserChoseItemMode()
     {
+        eventOrGameEditText.setText(listToShow.get(AppData.listChoosePosition));
         deleteBtn.setVisibility(View.VISIBLE);
         editBtn.setVisibility(View.VISIBLE);
         addBtn.setVisibility(View.INVISIBLE);
         addToTopOrBottomRadioGroup.setVisibility(View.INVISIBLE);
     }
 
+    public void updateEventOrGameEditText()
+    {
+        eventOrGameEditText.setText(listToShow.get(AppData.listChoosePosition));
+    }
+
     public void changeToNoneChoseItemMode()
     {
         AppData.listChoosePosition = -1;
+        eventOrGameEditText.setText("");
         deleteBtn.setVisibility(View.INVISIBLE);
         editBtn.setVisibility(View.INVISIBLE);
         addBtn.setVisibility(View.VISIBLE);

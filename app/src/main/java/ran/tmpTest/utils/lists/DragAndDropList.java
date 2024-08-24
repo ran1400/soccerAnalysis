@@ -70,7 +70,7 @@ public class DragAndDropList extends RecyclerView.Adapter<DragAndDropList.ViewHo
                 notifyItemChanged(AppData.listChoosePosition);
                 AppData.settingFragment.changeToUserChoseItemMode();
             }
-            else if (AppData.listChoosePosition == getAdapterPosition())
+            else if (AppData.listChoosePosition == getAdapterPosition()) // the item has clicked was choose already
             {
                 AppData.settingFragment.changeToNoneChoseItemMode();
                 notifyItemChanged(getAdapterPosition());
@@ -81,6 +81,7 @@ public class DragAndDropList extends RecyclerView.Adapter<DragAndDropList.ViewHo
                 AppData.listChoosePosition = getAdapterPosition();
                 notifyItemChanged(prevChoosePosition);
                 notifyItemChanged(AppData.listChoosePosition);
+                AppData.settingFragment.updateEventOrGameEditText();
             }
         }
 
