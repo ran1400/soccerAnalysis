@@ -23,14 +23,12 @@
     <string name="extraTime2">הארכה 2</string>
     <string name="playerNumber">מספר שחקן</string>
     <string name="saveTheTimeOrCustomizedEvent">שמירת השעון / אירוע בהתאמה אישית</string>
-    <string name="eventName">שם האירוע</string>
-    <string name="writeEvent">הכנס אירוע</string>
     <string name="gamesList">רשימת משחקים</string>
     <string name="eventsList">רשימת אירועים</string>
     <string name="editGames">ערוך משחקים</string>
     <string name="editEvents">ערוך אירועים</string>
-    <string name="writeEventName">הכנס שם אירוע</string>
-    <string name="writeGameName">הכנס שם משחק</string>
+    <string name="enterEventName">הכנס שם אירוע</string>
+    <string name="enterGameName">הכנס שם משחק</string>
     <string name="toTopOfTheList">לראש הרשימה</string>
     <string name="toBottomOfTheList">לסוף הרשימה</string>
     <string name="addEvent">הוסף אירוע</string>

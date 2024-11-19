@@ -137,7 +137,7 @@ public class EventAlertDialog extends AppCompatDialogFragment
         int eventChosen = getEventChosen();
         if (eventChosen == PERSONAL_EVENT && specialEventEditText.getText().toString().isEmpty())
         {
-            Toast.makeText(getActivity(),getString(R.string.writeEvent),Toast.LENGTH_SHORT).show();
+            Toast.makeText(getActivity(),getString(R.string.enterEventName),Toast.LENGTH_SHORT).show();
             return;
         }
 

@@ -47,7 +47,7 @@
         android:id="@+id/eventOrGameEditText"
         android:layout_height="50dp"
         android:layout_width="match_parent"
-        android:hint="@string/writeEventName"
+        android:hint="@string/enterEventName"
         android:textAlignment="textStart"
         android:textAppearance="@style/TextAppearance.AppCompat.Display1"
         android:textSize="22sp"

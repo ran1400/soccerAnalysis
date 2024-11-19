@@ -23,14 +23,12 @@
     <string name="extraTime2">ET 2</string>
     <string name="playerNumber">player number</string>
     <string name="saveTheTimeOrCustomizedEvent">Save the time / Customized event</string>
-    <string name="eventName">Event name</string>
-    <string name="writeEvent">write event</string>
     <string name="gamesList">Games list</string>
     <string name="eventsList">Events list</string>
     <string name="editGames">Edit games</string>
     <string name="editEvents">Edit events</string>
-    <string name="writeEventName">Write event name</string>
-    <string name="writeGameName">Write game name</string>
+    <string name="enterEventName">Enter event name</string>
+    <string name="enterGameName">Enter game name</string>
     <string name="toTopOfTheList">to top</string>
     <string name="toBottomOfTheList">to bottom</string>
     <string name="addEvent">Add event</string>

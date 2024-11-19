@@ -97,7 +97,7 @@ public class SettingFragment extends Fragment
                 gamesListView.setVisibility(View.VISIBLE);
                 eventsListView.setVisibility(View.INVISIBLE);
                 headerTextView.setText(getString(R.string.gamesList));
-                eventOrGameEditText.setHint(getString(R.string.writeGameName));
+                eventOrGameEditText.setHint(getString(R.string.enterGameName));
                 addBtn.setText(getString(R.string.addGame));
                 editBtn.setText(getString(R.string.renameGame));
                 deleteBtn.setText(getString(R.string.deleteGame));
@@ -108,7 +108,7 @@ public class SettingFragment extends Fragment
                 gamesListView.setVisibility(View.INVISIBLE);
                 eventsListView.setVisibility(View.VISIBLE);
                 headerTextView.setText(getString(R.string.eventsList));
-                eventOrGameEditText.setHint(getString(R.string.writeEventName));
+                eventOrGameEditText.setHint(getString(R.string.enterEventName));
                 addBtn.setText(getString(R.string.addEvent));
                 editBtn.setText(getString(R.string.renameEvent));
                 deleteBtn.setText(getString(R.string.deleteEvent));
