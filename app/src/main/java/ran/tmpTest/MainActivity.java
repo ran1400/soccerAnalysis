@@ -35,17 +35,11 @@ import java.util.Locale;
 public class MainActivity extends AppCompatActivity
 {
     private SharedPreferences sharedPreferences;
-
     private SharedPreferences.Editor editor;
-
     private View mainActivityView;
-
     private ClockThread clockThread;
-
     private Handler clockHandler;
-
     private final int CLOCK_MAX_VALUE = 999; //in minutes
-
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
